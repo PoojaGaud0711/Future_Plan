@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vrinda Wellness — Your Trusted Health & Wellness Partner</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              50: '#F0F7F4',
+              100: '#D9EDE2',
+              200: '#B3DBC5',
+              300: '#7FC4A0',
+              400: '#4BA87A',
+              500: '#2D8A5E',
+              600: '#1B6B47',
+              700: '#1B4332',
+              800: '#153628',
+              900: '#0E2A1E',
+            },
+            cream: '#FDF8F0',
+            gold: {
+              300: '#DDD0AA',
+              400: '#C5A55A',
+              500: '#B8952F',
+              600: '#9A7B24',
+            },
+            sage: {
+              100: '#E8EDE3',
+              200: '#D4DDD0',
+              300: '#A3B18A',
+              400: '#8A9E6E',
+            },
+            bark: '#3D2C1E',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Georgia', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #FDF8F0; color: #1a1a1a; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FDF8F0; }
+    ::-webkit-scrollbar-thumb { background: #1B4332; border-radius: 3px; }
+
+    /* Hardcoded dark section backgrounds as safety net */
+    .bg-dark-top { background-color: #1B4332; }
+    .bg-dark-hero { background: linear-gradient(135deg, #1B4332 0%, #153628 50%, #0E2A1E 100%); }
+    .bg-dark-footer { background-color: #153628; }
+
+    a, button, input, .card-hover {
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .search-box:focus-within {
+      box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.15);
+      border-color: #1B4332;
+    }
+
+    .mega-menu {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mega-trigger:hover .mega-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .quick-card { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+    .quick-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(27, 67, 50, 0.1);
+    }
+    .quick-card:hover .quick-icon {
+      transform: scale(1.1);
+      background: #1B4332;
+      color: white;
+    }
+    .quick-icon { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    .cat-card { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+    .cat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    .cat-card:hover .cat-img { transform: scale(1.08); }
+    .cat-img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    .prod-card { transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+    .prod-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+    }
+    .prod-card:hover .prod-img { transform: scale(1.05); }
+    .prod-card:hover .prod-atc { opacity: 1; transform: translateY(0); }
+    .prod-img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    .prod-atc {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s ease;
+    }
+
+    .combo-card { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+    .combo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(197, 165, 90, 0.12);
+    }
+    .combo-card:hover .combo-badge { background: #C5A55A; color: white; }
+    .combo-badge { transition: all 0.3s ease; }
+
+    .trust-item { transition: all 0.3s ease; }
+    .trust-item:hover { transform: translateY(-2px); }
+    .trust-item:hover .trust-icon { color: #C5A55A; }
+    .trust-icon { transition: color 0.3s ease; }
+
+    .beauty-card { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+    .beauty-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+    .beauty-card:hover .beauty-img { transform: scale(1.06); }
+    .beauty-img { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    .foot-link { transition: all 0.2s ease; }
+    .foot-link:hover { color: #C5A55A; padding-left: 4px; }
+
+    .nav-icon-btn { transition: all 0.25s ease; }
+    .nav-icon-btn:hover { background: rgba(27, 67, 50, 0.08); color: #1B4332; }
+
+    .mobile-drawer {
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+    .mobile-overlay { opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+    .mobile-overlay.open { opacity: 1; visibility: visible; }
+
+    .upload-zone { transition: all 0.3s ease; }
+    .upload-zone:hover { border-color: #1B4332; background: rgba(27, 67, 50, 0.03); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .fade-up-d1 { animation-delay: 0.1s; opacity: 0; }
+    .fade-up-d2 { animation-delay: 0.2s; opacity: 0; }
+    .fade-up-d3 { animation-delay: 0.3s; opacity: 0; }
+    .fade-up-d4 { animation-delay: 0.4s; opacity: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="bg-dark-top text-white" style="color: #ffffff;">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
+      <div class="flex items-center gap-4" style="color: rgba(255,255,255,0.85);">
+        <span class="flex items-center gap-1.5 text-xs">
+          <i class="fas fa-map-marker-alt" style="color: #C5A55A; font-size: 10px;"></i>
+          Delivery in Mumbai
+        </span>
+        <span class="hidden md:flex items-center gap-1.5 text-xs">
+          <i class="fas fa-phone" style="color: #C5A55A; font-size: 10px;"></i>
+          +91 99673 78987
+        </span>
+      </div>
+      <div class="flex items-center gap-4" style="color: rgba(255,255,255,0.85);">
+        <span class="hidden sm:flex items-center gap-1.5 text-xs">
+          <i class="fas fa-shield-alt" style="color: #C5A55A; font-size: 10px;"></i>
+          Licensed Pharmacy
+        </span>
+        <span class="flex items-center gap-1.5 text-xs">
+          <i class="fas fa-clock" style="color: #C5A55A; font-size: 10px;"></i>
+          8AM – 10PM
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <header class="sticky top-0 z-50 border-b border-black/5" style="background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex items-center justify-between h-16 md:h-[72px]">
+
+        <button id="mob-toggle" class="lg:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color: #1B4332;">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+
+        <a href="#" class="flex items-center gap-2.5 shrink-0">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: #1B4332;">
+            <span class="font-display font-bold text-white text-sm">V</span>
+          </div>
+          <div class="hidden sm:block">
+            <div class="font-display font-semibold text-[15px] leading-tight tracking-tight" style="color: #1B4332;">Vrinda</div>
+            <div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color: #2D8A5E;">Wellness</div>
+          </div>
+        </a>
+
+        <div class="hidden md:flex flex-1 max-w-xl mx-8">
+          <div class="search-box flex items-center w-full border rounded-xl px-4 h-11" style="border-color: rgba(0,0,0,0.1); background: rgba(253,248,240,0.6);">
+            <i class="fas fa-search mr-3 text-sm" style="color: rgba(0,0,0,0.25);"></i>
+            <input type="text" placeholder="Search medicines, health products, beauty..." class="flex-1 bg-transparent text-sm focus:outline-none" style="color: #153628;" />
+            <span class="text-[10px] border-l pl-3 ml-2 hidden lg:block" style="color: rgba(0,0,0,0.25); border-color: rgba(0,0,0,0.08);">Ctrl+K</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1 md:gap-2">
+          <button class="md:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color: #1B4332;">
+            <i class="fas fa-search"></i>
+          </button>
+          <a href="#" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color: #1B6B47;">
+            <i class="fas fa-user text-sm"></i>
+          </a>
+          <a href="#" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color: #1B6B47;">
+            <i class="far fa-heart text-sm"></i>
+          </a>
+          <a href="#" class="nav-icon-btn flex w-10 h-10 md:w-auto md:h-11 rounded-xl items-center justify-center md:px-4 gap-2 relative" style="color: #1B4332; background: rgba(27,67,50,0.05);">
+            <i class="fas fa-shopping-bag text-sm"></i>
+            <span class="hidden md:inline text-xs font-semibold">Cart</span>
+            <span class="absolute -top-1 -right-1 md:top-0 md:right-0 w-[18px] h-[18px] text-white text-[10px] font-bold rounded-full flex items-center justify-center" style="background: #C5A55A;">3</span>
+          </a>
+        </div>
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-1 pb-3 -mt-1 overflow-x-auto no-scrollbar">
+        <div class="mega-trigger relative">
+          <button class="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-green-50" style="color: #1B4332;">
+            <i class="fas fa-th-large text-[10px]"></i> All Categories <i class="fas fa-chevron-down text-[8px] ml-0.5 opacity-50"></i>
+          </button>
+          <div class="mega-menu absolute top-full left-0 mt-2 w-[600px] bg-white rounded-2xl shadow-xl border border-black/5 p-6 grid grid-cols-3 gap-4">
+            <div>
+              <h4 class="text-[10px] font-bold uppercase tracking-widest mb-3" style="color: #1B4332;">Medicines</h4>
+              <ul class="space-y-2">
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Prescription Drugs</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">OTC Medicines</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Ayurvedic</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Homeopathic</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Vitamins & Supplements</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-[10px] font-bold uppercase tracking-widest mb-3" style="color: #1B4332;">Personal Care</h4>
+              <ul class="space-y-2">
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Skincare</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Haircare</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Oral Care</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Feminine Hygiene</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Men's Grooming</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-[10px] font-bold uppercase tracking-widest mb-3" style="color: #1B4332;">Health & More</h4>
+              <ul class="space-y-2">
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Health Devices</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Baby Care</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Fitness & Nutrition</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Daily Essentials</a></li>
+                <li><a href="#" class="text-sm hover:text-green-800" style="color: rgba(0,0,0,0.6);">Beauty</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="text-xs font-medium px-3 py-2 rounded-lg hover:bg-green-50 whitespace-nowrap" style="color: rgba(0,0,0,0.5);">Combo Packs</a>
+        <a href="#" class="text-xs font-medium px-3 py-2 rounded-lg hover:bg-green-50 whitespace-nowrap" style="color: rgba(0,0,0,0.5);">Beauty</a>
+        <a href="#" class="text-xs font-medium px-3 py-2 rounded-lg hover:bg-green-50 whitespace-nowrap" style="color: rgba(0,0,0,0.5);">Ayurvedic</a>
+        <a href="#" class="text-xs font-medium px-3 py-2 rounded-lg hover:bg-green-50 whitespace-nowrap" style="color: rgba(0,0,0,0.5);">Health Profile</a>
+        <a href="#" class="text-xs font-medium px-3 py-2 rounded-lg hover:bg-green-50 whitespace-nowrap" style="color: rgba(0,0,0,0.5);">Symptom Checker</a>
+        <a href="#" class="text-xs font-semibold px-3 py-2 rounded-lg hover:bg-amber-50 whitespace-nowrap" style="color: #B8952F;">Offers</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mob-overlay" class="mobile-overlay fixed inset-0 z-[60] bg-black/40 lg:hidden" style="backdrop-filter: blur(4px);"></div>
+  <div id="mob-drawer" class="mobile-drawer fixed top-0 left-0 bottom-0 z-[70] w-[300px] bg-white shadow-2xl lg:hidden overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: #1B4332;">
+            <span class="font-display font-bold text-white text-sm">V</span>
+          </div>
+          <div>
+            <div class="font-display font-semibold text-[15px] leading-tight" style="color: #1B4332;">Vrinda</div>
+            <div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color: #2D8A5E;">Wellness</div>
+          </div>
+        </div>
+        <button id="mob-close" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100" style="color: rgba(0,0,0,0.4);">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="mb-6">
+        <div class="flex items-center gap-3 p-3 rounded-xl" style="background: #F0F7F4;">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: #1B4332;">
+            <i class="fas fa-user text-white text-sm"></i>
+          </div>
+          <div>
+            <div class="text-sm font-semibold" style="color: #153628;">Welcome!</div>
+            <div class="text-xs" style="color: #2D8A5E;">Login / Sign Up</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="space-y-1">
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium" style="background: #F0F7F4; color: #1B4332;">
+          <i class="fas fa-th-large text-xs w-5 text-center"></i> All Categories
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-box-open text-xs w-5 text-center"></i> Combo Packs
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-spa text-xs w-5 text-center"></i> Beauty
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-leaf text-xs w-5 text-center"></i> Ayurvedic
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-heartbeat text-xs w-5 text-center"></i> Health Profile
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-stethoscope text-xs w-5 text-center"></i> Symptom Checker
+        </a>
+        <div class="my-3" style="border-top: 1px solid rgba(0,0,0,0.06);"></div>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-file-prescription text-xs w-5 text-center"></i> Upload Prescription
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color: rgba(0,0,0,0.6);">
+          <i class="fas fa-redo text-xs w-5 text-center"></i> Order Refills
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold hover:bg-amber-50" style="color: #B8952F;">
+          <i class="fas fa-tag text-xs w-5 text-center"></i> Offers
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+
+    <!-- HERO -->
+    <section class="bg-dark-hero text-white relative overflow-hidden">
+      <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+
+      <div class="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <div class="fade-up inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);">
+              <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+              <span class="text-xs font-medium" style="color: rgba(255,255,255,0.8);">Delivering trust, doorstep to doorstep</span>
+            </div>
+            <h1 class="fade-up fade-up-d1 font-display font-semibold text-3xl md:text-5xl lg:text-[3.4rem] leading-[1.1] tracking-tight mb-5" style="color: #ffffff;">
+              Your health,<br/>
+              <span style="color: #DDD0AA;">simplified.</span>
+            </h1>
+            <p class="fade-up fade-up-d2 text-base md:text-lg leading-relaxed max-w-md mb-8" style="color: rgba(255,255,255,0.7);">
+              Medicines, wellness essentials, and beauty — all curated for you and your family. Order in 30 seconds.
+            </p>
+            <div class="fade-up fade-up-d3 flex flex-col sm:flex-row gap-3">
+              <a href="#" class="inline-flex items-center justify-center gap-2 text-sm font-semibold px-7 py-3.5 rounded-xl shadow-lg" style="background: #ffffff; color: #1B4332;">
+                <i class="fas fa-search text-xs"></i> Order Medicines
+              </a>
+              <a href="#" class="inline-flex items-center justify-center gap-2 text-sm font-medium px-7 py-3.5 rounded-xl" style="background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px);">
+                <i class="fas fa-file-prescription text-xs"></i> Upload Prescription
+              </a>
+            </div>
+          </div>
+
+          <div class="fade-up fade-up-d4 hidden md:block">
+            <div class="relative">
+              <div class="w-full aspect-square max-w-[420px] ml-auto rounded-3xl overflow-hidden" style="border: 1px solid rgba(255,255,255,0.1);">
+                <img src="https://picsum.photos/seed/vrinda-hero-wellness/600/600.jpg" alt="Wellness products" class="w-full h-full object-cover" style="opacity: 0.7;" />
+                <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(14,42,30,0.8), rgba(14,42,30,0.2), transparent);"></div>
+              </div>
+              <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl p-4 shadow-xl max-w-[200px]">
+                <div class="flex items-center gap-3 mb-2">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: #D9EDE2;">
+                    <i class="fas fa-check text-xs" style="color: #1B6B47;"></i>
+                  </div>
+                  <div class="text-xs font-semibold" style="color: #153628;">100% Genuine</div>
+                </div>
+                <p class="text-[11px] leading-relaxed" style="color: rgba(0,0,0,0.45);">All medicines sourced directly from licensed distributors</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 -mt-8 relative z-20 mb-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="quick-card bg-white rounded-2xl p-5 border border-black/5 cursor-pointer">
+          <div class="quick-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B4332;">
+            <i class="fas fa-file-prescription text-lg"></i>
+          </div>
+          <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Upload Prescription</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.4);">We'll find your medicines and deliver</p>
+        </div>
+        <div class="quick-card bg-white rounded-2xl p-5 border border-black/5 cursor-pointer">
+          <div class="quick-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: rgba(197,165,90,0.1); color: #B8952F;">
+            <i class="fas fa-redo text-lg"></i>
+          </div>
+          <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Order Refills</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.4);">Reorder your family's regular medicines</p>
+        </div>
+        <div class="quick-card bg-white rounded-2xl p-5 border border-black/5 cursor-pointer">
+          <div class="quick-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B4332;">
+            <i class="fas fa-heartbeat text-lg"></i>
+          </div>
+          <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Health Profile</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.4);">Save family health data, get reminders</p>
+        </div>
+        <div class="quick-card bg-white rounded-2xl p-5 border border-black/5 cursor-pointer">
+          <div class="quick-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #E8EDE3; color: #8A9E6E;">
+            <i class="fas fa-stethoscope text-lg"></i>
+          </div>
+          <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Symptom Checker</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.4);">Tell us how you feel, we'll suggest</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMBO PACKS -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #B8952F;">Curated by Vrinda</span>
+          <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color: #153628;">Wellness Combos</h2>
+        </div>
+        <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color: #1B6B47;">
+          View All <i class="fas fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+
+      <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+        <div class="combo-card flex-shrink-0 w-[260px] md:w-[280px] bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-40 overflow-hidden" style="background: linear-gradient(135deg, #FFF8EB, #FEF3C7);">
+            <img src="https://picsum.photos/seed/immunity-kit-combo/400/250.jpg" alt="Immunity Kit" class="w-full h-full object-cover" style="opacity: 0.8;" />
+            <span class="combo-badge absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full" style="background: rgba(197,165,90,0.15); color: #9A7B24;">Bestseller</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Daily Immunity Kit</h3>
+            <p class="text-xs mb-3 leading-relaxed" style="color: rgba(0,0,0,0.4);">Vitamin C + Zinc + Tulsi drops + Ashwagandha</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹499</span>
+                <span class="text-xs line-through ml-1.5" style="color: rgba(0,0,0,0.3);">₹620</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">Save 20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="combo-card flex-shrink-0 w-[260px] md:w-[280px] bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-40 overflow-hidden" style="background: linear-gradient(135deg, #EFF6FF, #DBEAFE);">
+            <img src="https://picsum.photos/seed/winter-care-pack/400/250.jpg" alt="Winter Care" class="w-full h-full object-cover" style="opacity: 0.8;" />
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Winter Care Pack</h3>
+            <p class="text-xs mb-3 leading-relaxed" style="color: rgba(0,0,0,0.4);">Cough syrup + Vaporub + Honey + Steam oil</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹389</span>
+                <span class="text-xs line-through ml-1.5" style="color: rgba(0,0,0,0.3);">₹480</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">Save 19%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="combo-card flex-shrink-0 w-[260px] md:w-[280px] bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-40 overflow-hidden" style="background: linear-gradient(135deg, #FFF1F2, #FCE7F3);">
+            <img src="https://picsum.photos/seed/skincare-routine-combo/400/250.jpg" alt="Skincare Routine" class="w-full h-full object-cover" style="opacity: 0.8;" />
+            <span class="combo-badge absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full" style="background: #FCE7F3; color: #BE185D;">New</span>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Glow Skincare Routine</h3>
+            <p class="text-xs mb-3 leading-relaxed" style="color: rgba(0,0,0,0.4);">Face wash + Toner + Serum + Moisturizer + SPF</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹1,299</span>
+                <span class="text-xs line-through ml-1.5" style="color: rgba(0,0,0,0.3);">₹1,750</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">Save 26%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="combo-card flex-shrink-0 w-[260px] md:w-[280px] bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-40 overflow-hidden" style="background: linear-gradient(135deg, #F0FDF4, #DCFCE7);">
+            <img src="https://picsum.photos/seed/first-aid-kit-box/400/250.jpg" alt="First Aid Kit" class="w-full h-full object-cover" style="opacity: 0.8;" />
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold mb-1" style="color: #153628;">Home First Aid Kit</h3>
+            <p class="text-xs mb-3 leading-relaxed" style="color: rgba(0,0,0,0.4);">Bandages + Antiseptic + Cotton + Dettol + Scissors</p>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹349</span>
+                <span class="text-xs line-through ml-1.5" style="color: rgba(0,0,0,0.3);">₹420</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">Save 17%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP BY CATEGORY -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #2D8A5E;">Browse</span>
+          <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color: #153628;">Shop by Category</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #EFF6FF;"><img src="https://picsum.photos/seed/cat-medicines/300/300.jpg" alt="Medicines" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Medicines</span></div>
+        </div>
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #FFF1F2;"><img src="https://picsum.photos/seed/cat-beauty-products/300/300.jpg" alt="Beauty" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Beauty</span></div>
+        </div>
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #F0FDF4;"><img src="https://picsum.photos/seed/cat-ayurvedic-items/300/300.jpg" alt="Ayurvedic" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Ayurvedic</span></div>
+        </div>
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #FFF8EB;"><img src="https://picsum.photos/seed/cat-vitamins-supplements/300/300.jpg" alt="Supplements" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Supplements</span></div>
+        </div>
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #ECFEFF;"><img src="https://picsum.photos/seed/cat-personal-care/300/300.jpg" alt="Personal Care" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Personal Care</span></div>
+        </div>
+        <div class="cat-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer text-center">
+          <div class="aspect-square overflow-hidden" style="background: #FFF7ED;"><img src="https://picsum.photos/seed/cat-daily-essentials/300/300.jpg" alt="Daily Use" class="cat-img w-full h-full object-cover" /></div>
+          <div class="p-3"><span class="text-xs font-semibold" style="color: #153628;">Daily Use</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRENDING PRODUCTS -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #2D8A5E;">Popular Right Now</span>
+          <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color: #153628;">Bestsellers</h2>
+        </div>
+        <div class="hidden md:flex items-center gap-2">
+          <button class="w-9 h-9 rounded-xl border flex items-center justify-center" style="border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.3);">
+            <i class="fas fa-arrow-left text-xs"></i>
+          </button>
+          <button class="w-9 h-9 rounded-xl border flex items-center justify-center" style="border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.3);">
+            <i class="fas fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+        <!-- Product 1 -->
+        <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
+            <img src="https://picsum.photos/seed/product-vitamin-c/400/400.jpg" alt="Vitamin C" class="prod-img w-full h-full object-cover" />
+            <span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #1B4332;">OTC</span>
+            <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background: #1B4332;">Add to Cart</button>
+          </div>
+          <div class="p-3.5">
+            <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color: rgba(0,0,0,0.35);">HealthVit</p>
+            <h3 class="text-sm font-semibold leading-snug mb-2 line-clamp-2" style="color: #153628;">Vitamin C 500mg Chewable Tablets – Orange</h3>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-0.5">
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star-half-alt text-[9px]" style="color: #C5A55A;"></i>
+              </div>
+              <span class="text-[10px]" style="color: rgba(0,0,0,0.3);">(248)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹245</span>
+                <span class="text-xs line-through ml-1" style="color: rgba(0,0,0,0.3);">₹320</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">23% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
+            <img src="https://picsum.photos/seed/product-facewash/400/400.jpg" alt="Face Wash" class="prod-img w-full h-full object-cover" />
+            <span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #E11D48;">Beauty</span>
+            <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background: #1B4332;">Add to Cart</button>
+          </div>
+          <div class="p-3.5">
+            <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color: rgba(0,0,0,0.35);">Cetaphil</p>
+            <h3 class="text-sm font-semibold leading-snug mb-2 line-clamp-2" style="color: #153628;">Gentle Skin Cleanser – 250ml</h3>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-0.5">
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+              </div>
+              <span class="text-[10px]" style="color: rgba(0,0,0,0.3);">(1.2k)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹420</span>
+                <span class="text-xs line-through ml-1" style="color: rgba(0,0,0,0.3);">₹499</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">16% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
+            <img src="https://picsum.photos/seed/product-ashwagandha/400/400.jpg" alt="Ashwagandha" class="prod-img w-full h-full object-cover" />
+            <span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #1B4332;">Ayurvedic</span>
+            <span class="absolute top-2.5 right-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #DC2626;"><i class="fas fa-prescription text-[8px] mr-0.5"></i> Rx</span>
+            <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background: #1B4332;">Add to Cart</button>
+          </div>
+          <div class="p-3.5">
+            <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color: rgba(0,0,0,0.35);">Himalaya</p>
+            <h3 class="text-sm font-semibold leading-snug mb-2 line-clamp-2" style="color: #153628;">Ashwagandha Tablets – Stress Relief, 60 tabs</h3>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-0.5">
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="far fa-star text-[9px]" style="color: #C5A55A;"></i>
+              </div>
+              <span class="text-[10px]" style="color: rgba(0,0,0,0.3);">(89)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹185</span>
+                <span class="text-xs line-through ml-1" style="color: rgba(0,0,0,0.3);">₹230</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">20% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
+            <img src="https://picsum.photos/seed/product-protein-powder/400/400.jpg" alt="Protein" class="prod-img w-full h-full object-cover" />
+            <span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #1B4332;">Nutrition</span>
+            <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background: #1B4332;">Add to Cart</button>
+          </div>
+          <div class="p-3.5">
+            <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color: rgba(0,0,0,0.35);">MuscleBlaze</p>
+            <h3 class="text-sm font-semibold leading-snug mb-2 line-clamp-2" style="color: #153628;">Biozyme Whey Protein – Chocolate, 1kg</h3>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-0.5">
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star text-[9px]" style="color: #C5A55A;"></i>
+                <i class="fas fa-star-half-alt text-[9px]" style="color: #C5A55A;"></i>
+              </div>
+              <span class="text-[10px]" style="color: rgba(0,0,0,0.3);">(534)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-base font-bold" style="color: #1B4332;">₹1,849</span>
+                <span class="text-xs line-through ml-1" style="color: rgba(0,0,0,0.3);">₹2,499</span>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color: #166534; background: #DCFCE7;">26% off</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEAUTY SECTION TEASER -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="beauty-card rounded-3xl overflow-hidden border cursor-pointer" style="background: linear-gradient(135deg, #FFF1F2, #FCE7F3, #FDF8F0); border-color: rgba(244,114,182,0.15);">
+        <div class="grid md:grid-cols-2">
+          <div class="p-8 md:p-12 flex flex-col justify-center">
+            <span class="text-[10px] font-bold uppercase tracking-widest mb-3" style="color: #E11D48;">Beauty, Personalized</span>
+            <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mb-4" style="color: #153628;">
+              Find your perfect <span style="color: #E11D48;">skincare routine</span>
+            </h2>
+            <p class="text-sm leading-relaxed mb-6 max-w-sm" style="color: rgba(0,0,0,0.5);">
+              Take a quick skin quiz and get product recommendations tailored to YOUR skin type. No guesswork, no wasted money.
+            </p>
+            <div class="flex items-center gap-3">
+              <a href="#" class="inline-flex items-center gap-2 text-white text-sm font-semibold px-6 py-3 rounded-xl" style="background: #E11D48;">
+                <i class="fas fa-magic text-xs"></i> Take Skin Quiz
+              </a>
+              <a href="#" class="inline-flex items-center gap-2 text-sm font-medium" style="color: #1B6B47;">
+                Browse Beauty <i class="fas fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+          <div class="relative h-64 md:h-auto overflow-hidden">
+            <img src="https://picsum.photos/seed/beauty-section-skin/700/500.jpg" alt="Skincare" class="beauty-img w-full h-full object-cover" />
+            <div class="absolute inset-0 hidden md:block" style="background: linear-gradient(to right, rgba(255,241,242,0.5), transparent);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESCRIPTION UPLOAD BANNER -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="upload-zone bg-white rounded-3xl p-8 md:p-12 text-center cursor-pointer" style="border: 2px dashed #B3DBC5;">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background: #F0F7F4;">
+          <i class="fas fa-cloud-upload-alt text-2xl" style="color: #2D8A5E;"></i>
+        </div>
+        <h3 class="font-display font-semibold text-xl md:text-2xl mb-2" style="color: #153628;">Have a prescription? Upload it here</h3>
+        <p class="text-sm max-w-md mx-auto mb-5 leading-relaxed" style="color: rgba(0,0,0,0.4);">
+          Upload a photo of your prescription and we'll arrange all your medicines. No need to search each one manually.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button class="inline-flex items-center gap-2 text-white text-sm font-semibold px-7 py-3.5 rounded-xl" style="background: #1B4332;">
+            <i class="fas fa-camera text-xs"></i> Upload Prescription
+          </button>
+          <span class="text-xs" style="color: rgba(0,0,0,0.3);">JPG, PNG, PDF — Max 5MB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="bg-white rounded-2xl border border-black/5 p-6 md:p-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
+          <div class="trust-item flex flex-col items-center text-center">
+            <div class="trust-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B6B47;">
+              <i class="fas fa-shield-alt text-lg"></i>
+            </div>
+            <h4 class="text-sm font-semibold mb-1" style="color: #153628;">100% Genuine</h4>
+            <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.35);">All medicines directly from licensed distributors</p>
+          </div>
+          <div class="trust-item flex flex-col items-center text-center">
+            <div class="trust-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B6B47;">
+              <i class="fas fa-certificate text-lg"></i>
+            </div>
+            <h4 class="text-sm font-semibold mb-1" style="color: #153628;">Licensed Pharmacy</h4>
+            <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.35);">Government certified with valid drug license</p>
+          </div>
+          <div class="trust-item flex flex-col items-center text-center">
+            <div class="trust-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B6B47;">
+              <i class="fas fa-truck text-lg"></i>
+            </div>
+            <h4 class="text-sm font-semibold mb-1" style="color: #153628;">Fast Delivery</h4>
+            <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.35);">Same-day delivery within your locality</p>
+          </div>
+          <div class="trust-item flex flex-col items-center text-center">
+            <div class="trust-icon w-12 h-12 rounded-xl flex items-center justify-center mb-3" style="background: #F0F7F4; color: #1B6B47;">
+              <i class="fas fa-undo text-lg"></i>
+            </div>
+            <h4 class="text-sm font-semibold mb-1" style="color: #153628;">Easy Returns</h4>
+            <p class="text-xs leading-relaxed" style="color: rgba(0,0,0,0.35);">Hassle-free return for damaged or wrong items</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-dark-footer text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 pt-14 pb-8">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div class="col-span-2 md:col-span-2">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: #1B6B47; border: 1px solid rgba(255,255,255,0.1);">
+              <span class="font-display font-bold text-white text-base">V</span>
+            </div>
+            <div>
+              <div class="font-display font-semibold text-white text-lg leading-tight">Vrinda Wellness</div>
+              <div class="text-[10px] font-medium tracking-widest uppercase" style="color: #7FC4A0;">Your Trusted Partner</div>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed max-w-xs mb-5" style="color: rgba(255,255,255,0.5);">
+            More than a pharmacy — your neighborhood wellness destination. Quality medicines, curated health products, and expert care, delivered to your doorstep.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+              <i class="fab fa-whatsapp text-sm"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+              <i class="fab fa-youtube text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-[10px] font-bold uppercase tracking-widest mb-4" style="color: rgba(255,255,255,0.5);">Shop</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Medicines</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Beauty</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Ayurvedic</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Supplements</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Personal Care</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Combo Packs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-[10px] font-bold uppercase tracking-widest mb-4" style="color: rgba(255,255,255,0.5);">Features</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Upload Prescription</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Health Profile</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Refill Reminders</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Symptom Checker</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Skin Quiz</a></li>
+            <li><a href="#" class="foot-link text-sm" style="color: rgba(255,255,255,0.45);">Offers</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-[10px] font-bold uppercase tracking-widest mb-4" style="color: rgba(255,255,255,0.5);">Contact</h4>
+          <ul class="space-y-2.5">
+            <li class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.45);">
+              <i class="fas fa-map-marker-alt text-xs w-4" style="color: #C5A55A;"></i> Mumbai, Maharashtra
+            </li>
+            <li class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.45);">
+              <i class="fas fa-phone text-xs w-4" style="color: #C5A55A;"></i> +91 99673 78987
+            </li>
+            <li class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.45);">
+              <i class="fas fa-envelope text-xs w-4" style="color: #C5A55A;"></i> hello@vrindawellness.com
+            </li>
+            <li class="flex items-center gap-2 text-sm" style="color: rgba(255,255,255,0.45);">
+              <i class="fas fa-clock text-xs w-4" style="color: #C5A55A;"></i> 8AM – 10PM, All days
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col md:flex-row items-center justify-between gap-3" style="border-top: 1px solid rgba(255,255,255,0.06);">
+        <span class="text-xs" style="color: rgba(255,255,255,0.25);">© 2025 Vrinda Wellness. All rights reserved.</span>
+        <div class="flex items-center gap-5">
+          <a href="#" class="text-xs hover:text-white/50" style="color: rgba(255,255,255,0.25);">Privacy Policy</a>
+          <a href="#" class="text-xs hover:text-white/50" style="color: rgba(255,255,255,0.25);">Terms of Service</a>
+          <a href="#" class="text-xs hover:text-white/50" style="color: rgba(255,255,255,0.25);">Refund Policy</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px]" style="color: rgba(255,255,255,0.2);">We accept</span>
+          <i class="fab fa-cc-visa text-lg" style="color: rgba(255,255,255,0.35);"></i>
+          <i class="fab fa-cc-mastercard text-lg" style="color: rgba(255,255,255,0.35);"></i>
+          <i class="fab fa-google-pay text-lg" style="color: rgba(255,255,255,0.35);"></i>
+          <span class="text-[10px] font-medium" style="color: rgba(255,255,255,0.35);">UPI</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    const mobToggle = document.getElementById('mob-toggle');
+    const mobClose = document.getElementById('mob-close');
+    const mobDrawer = document.getElementById('mob-drawer');
+    const mobOverlay = document.getElementById('mob-overlay');
+
+    function openDrawer() { mobDrawer.classList.add('open'); mobOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeDrawer() { mobDrawer.classList.remove('open'); mobOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+    mobToggle.addEventListener('click', openDrawer);
+    mobClose.addEventListener('click', closeDrawer);
+    mobOverlay.addEventListener('click', closeDrawer);
+    mobDrawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeDrawer));
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.querySelector('.search-box input');
+        if (searchInput) searchInput.focus();
+      }
+    });
+
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.style.boxShadow = window.scrollY > 20 ? '0 4px 20px rgba(0,0,0,0.06)' : 'none';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('section:not(:first-of-type)').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+      observer.observe(section);
+    });
+  </script>
+
+</body>
+</html>
