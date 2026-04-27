@@ -63,7 +63,6 @@
     ::-webkit-scrollbar-track { background: #FDF8F0; }
     ::-webkit-scrollbar-thumb { background: #1B4332; border-radius: 3px; }
 
-    /* Hardcoded dark section backgrounds as safety net */
     .bg-dark-top { background-color: #1B4332; }
     .bg-dark-hero { background: linear-gradient(135deg, #1B4332 0%, #153628 50%, #0E2A1E 100%); }
     .bg-dark-footer { background-color: #153628; }
@@ -173,6 +172,102 @@
     .fade-up-d2 { animation-delay: 0.2s; opacity: 0; }
     .fade-up-d3 { animation-delay: 0.3s; opacity: 0; }
     .fade-up-d4 { animation-delay: 0.4s; opacity: 0; }
+
+    /* ── New section styles ── */
+
+    /* Testimonial cards */
+    .testi-card {
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .testi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(27, 67, 50, 0.08);
+    }
+    .testi-card:hover .testi-avatar {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(27, 67, 50, 0.15);
+    }
+    .testi-avatar {
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Blog / health tip cards */
+    .blog-card {
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.07);
+    }
+    .blog-card:hover .blog-img { transform: scale(1.06); }
+    .blog-card:hover .blog-read { color: #1B4332; gap: 8px; }
+    .blog-img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    .blog-read { transition: all 0.3s ease; }
+
+    /* Brand marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track {
+      animation: marquee 30s linear infinite;
+    }
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+    .brand-item {
+      transition: all 0.3s ease;
+      filter: grayscale(100%);
+      opacity: 0.4;
+    }
+    .brand-item:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+
+    /* Newsletter */
+    .nl-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(197, 165, 90, 0.2);
+      border-color: #C5A55A;
+    }
+
+    /* Back to top */
+    .back-to-top {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(27, 67, 50, 0.25);
+    }
+
+    /* Testimonial nav dots */
+    .testi-dot {
+      transition: all 0.3s ease;
+    }
+    .testi-dot.active {
+      width: 24px;
+      background: #1B4332;
+    }
+
+    /* Toast notification */
+    .toast {
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -586,7 +681,6 @@
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
-        <!-- Product 1 -->
         <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
           <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
             <img src="https://picsum.photos/seed/product-vitamin-c/400/400.jpg" alt="Vitamin C" class="prod-img w-full h-full object-cover" />
@@ -616,7 +710,6 @@
           </div>
         </div>
 
-        <!-- Product 2 -->
         <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
           <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
             <img src="https://picsum.photos/seed/product-facewash/400/400.jpg" alt="Face Wash" class="prod-img w-full h-full object-cover" />
@@ -646,12 +739,10 @@
           </div>
         </div>
 
-        <!-- Product 3 -->
         <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
           <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
             <img src="https://picsum.photos/seed/product-ashwagandha/400/400.jpg" alt="Ashwagandha" class="prod-img w-full h-full object-cover" />
             <span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #1B4332;">Ayurvedic</span>
-            <span class="absolute top-2.5 right-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background: #DC2626;"><i class="fas fa-prescription text-[8px] mr-0.5"></i> Rx</span>
             <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background: #1B4332;">Add to Cart</button>
           </div>
           <div class="p-3.5">
@@ -677,7 +768,6 @@
           </div>
         </div>
 
-        <!-- Product 4 -->
         <div class="prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
           <div class="relative aspect-square overflow-hidden" style="background: rgba(253,248,240,0.5);">
             <img src="https://picsum.photos/seed/product-protein-powder/400/400.jpg" alt="Protein" class="prod-img w-full h-full object-cover" />
@@ -793,6 +883,331 @@
       </div>
     </section>
 
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- NEW: CUSTOMER TESTIMONIALS                      -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #C5A55A;">Loved by Families</span>
+          <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color: #153628;">What Our Customers Say</h2>
+        </div>
+        <div class="hidden md:flex items-center gap-2">
+          <button id="testi-prev" class="w-9 h-9 rounded-xl border flex items-center justify-center hover:bg-green-50" style="border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.4);">
+            <i class="fas fa-arrow-left text-xs"></i>
+          </button>
+          <button id="testi-next" class="w-9 h-9 rounded-xl border flex items-center justify-center hover:bg-green-50" style="border-color: rgba(0,0,0,0.08); color: rgba(0,0,0,0.4);">
+            <i class="fas fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="testi-container" class="overflow-hidden">
+        <div id="testi-track" class="flex gap-5 transition-transform duration-500" style="transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);">
+
+          <!-- Testimonial 1 -->
+          <div class="testi-card flex-shrink-0 w-full md:w-[calc(50%-10px)] bg-white rounded-2xl border border-black/5 p-6">
+            <div class="flex items-center gap-0.5 mb-4">
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+            </div>
+            <p class="text-sm leading-relaxed mb-5" style="color: rgba(0,0,0,0.6);">
+              "I uploaded my father's prescription at 10 PM and got all medicines delivered by 8 AM the next morning. The packaging was perfect — each medicine labeled clearly. This is exactly what Mumbai needed."
+            </p>
+            <div class="flex items-center gap-3">
+              <div class="testi-avatar w-10 h-10 rounded-full overflow-hidden" style="background: #F0F7F4;">
+                <img src="https://picsum.photos/seed/customer-priya/100/100.jpg" alt="Priya" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <div class="text-sm font-semibold" style="color: #153628;">Priya Sharma</div>
+                <div class="text-[11px]" style="color: rgba(0,0,0,0.35);">Andheri, Mumbai · Ordered 12 times</div>
+              </div>
+              <span class="ml-auto text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background: #DCFCE7; color: #166534;">Verified</span>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testi-card flex-shrink-0 w-full md:w-[calc(50%-10px)] bg-white rounded-2xl border border-black/5 p-6">
+            <div class="flex items-center gap-0.5 mb-4">
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+            </div>
+            <p class="text-sm leading-relaxed mb-5" style="color: rgba(0,0,0,0.6);">
+              "The immunity combo pack is a lifesaver! I've been ordering it every month for my whole family. Great quality supplements at much better prices than what I found locally. Highly recommend Vrinda."
+            </p>
+            <div class="flex items-center gap-3">
+              <div class="testi-avatar w-10 h-10 rounded-full overflow-hidden" style="background: #FFF8EB;">
+                <img src="https://picsum.photos/seed/customer-rajesh/100/100.jpg" alt="Rajesh" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <div class="text-sm font-semibold" style="color: #153628;">Rajesh Menon</div>
+                <div class="text-[11px]" style="color: rgba(0,0,0,0.35);">Powai, Mumbai · Ordered 8 times</div>
+              </div>
+              <span class="ml-auto text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background: #DCFCE7; color: #166534;">Verified</span>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testi-card flex-shrink-0 w-full md:w-[calc(50%-10px)] bg-white rounded-2xl border border-black/5 p-6">
+            <div class="flex items-center gap-0.5 mb-4">
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star-half-alt text-xs" style="color: #C5A55A;"></i>
+            </div>
+            <p class="text-sm leading-relaxed mb-5" style="color: rgba(0,0,0,0.6);">
+              "As a new mom, I barely get time to step out. Vrinda's baby care section has everything I need — from diapers to gentle washes. The refill reminder feature is super helpful. Never miss anything now!"
+            </p>
+            <div class="flex items-center gap-3">
+              <div class="testi-avatar w-10 h-10 rounded-full overflow-hidden" style="background: #FFF1F2;">
+                <img src="https://picsum.photos/seed/customer-anjali/100/100.jpg" alt="Anjali" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <div class="text-sm font-semibold" style="color: #153628;">Anjali Desai</div>
+                <div class="text-[11px]" style="color: rgba(0,0,0,0.35);">Thane, Mumbai · Ordered 15 times</div>
+              </div>
+              <span class="ml-auto text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background: #DCFCE7; color: #166534;">Verified</span>
+            </div>
+          </div>
+
+          <!-- Testimonial 4 -->
+          <div class="testi-card flex-shrink-0 w-full md:w-[calc(50%-10px)] bg-white rounded-2xl border border-black/5 p-6">
+            <div class="flex items-center gap-0.5 mb-4">
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+              <i class="fas fa-star text-xs" style="color: #C5A55A;"></i>
+            </div>
+            <p class="text-sm leading-relaxed mb-5" style="color: rgba(0,0,0,0.6);">
+              "I was skeptical about ordering medicines online, but Vrinda changed my mind completely. Licensed pharmacy, proper bills, cold-chain packaging for insulin — these guys are professionals."
+            </p>
+            <div class="flex items-center gap-3">
+              <div class="testi-avatar w-10 h-10 rounded-full overflow-hidden" style="background: #EFF6FF;">
+                <img src="https://picsum.photos/seed/customer-drkhan/100/100.jpg" alt="Dr. Khan" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <div class="text-sm font-semibold" style="color: #153628;">Dr. Farhan Khan</div>
+                <div class="text-[11px]" style="color: rgba(0,0,0,0.35);">Bandra, Mumbai · Ordered 6 times</div>
+              </div>
+              <span class="ml-auto text-[10px] font-semibold px-2.5 py-1 rounded-full" style="background: #DCFCE7; color: #166534;">Verified</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dots (mobile + desktop) -->
+      <div class="flex items-center justify-center gap-2 mt-6">
+        <button class="testi-dot active w-6 h-2 rounded-full" style="background: #1B4332;" data-index="0"></button>
+        <button class="testi-dot w-2 h-2 rounded-full" style="background: rgba(0,0,0,0.12);" data-index="1"></button>
+        <button class="testi-dot w-2 h-2 rounded-full" style="background: rgba(0,0,0,0.12);" data-index="2"></button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- NEW: BRAND PARTNERS MARQUEE                     -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="text-center mb-8">
+        <span class="text-[10px] font-bold uppercase tracking-widest" style="color: rgba(0,0,0,0.25);">Trusted Brands We Carry</span>
+      </div>
+      <div class="overflow-hidden rounded-2xl" style="mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);">
+        <div class="marquee-track flex items-center gap-12 whitespace-nowrap" style="width: max-content;">
+          <!-- First set -->
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-display font-bold text-xl" style="color: #153628;">Himalaya</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Cetaphil</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Dabur</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">MuscleBlaze</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-display font-bold text-xl" style="color: #153628;">HealthVit</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Nivea</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Vaseline</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Baidyanath</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Amway</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Optimum Nutrition</span>
+          </div>
+          <!-- Duplicate set for seamless loop -->
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-display font-bold text-xl" style="color: #153628;">Himalaya</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Cetaphil</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Dabur</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">MuscleBlaze</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-display font-bold text-xl" style="color: #153628;">HealthVit</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Nivea</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Vaseline</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Baidyanath</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl" style="color: #153628;">Amway</span>
+          </div>
+          <div class="brand-item flex items-center gap-2.5 px-4 py-3">
+            <span class="font-body font-bold text-xl tracking-tight" style="color: #153628;">Optimum Nutrition</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- NEW: HEALTH TIPS / BLOG PREVIEW                 -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #2D8A5E;">From Our Journal</span>
+          <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color: #153628;">Health Tips & Insights</h2>
+        </div>
+        <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color: #1B6B47;">
+          All Articles <i class="fas fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <!-- Blog Card 1 -->
+        <article class="blog-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-48 overflow-hidden" style="background: #F0F7F4;">
+            <img src="https://picsum.photos/seed/blog-immunity-tips/600/400.jpg" alt="Immunity tips" class="blog-img w-full h-full object-cover" />
+            <span class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white" style="background: #1B4332;">Immunity</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-calendar mr-1"></i> Jan 15, 2025</span>
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-clock mr-1"></i> 5 min read</span>
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug mb-2" style="color: #153628;">10 Ayurvedic Habits That Can Boost Your Immunity This Winter</h3>
+            <p class="text-xs leading-relaxed mb-4" style="color: rgba(0,0,0,0.4);">From tulsi kadha to golden milk — simple, time-tested routines from Ayurveda that actually work for building resilience.</p>
+            <span class="blog-read text-xs font-semibold flex items-center gap-1.5" style="color: #1B6B47;">
+              Read More <i class="fas fa-arrow-right text-[10px]"></i>
+            </span>
+          </div>
+        </article>
+
+        <!-- Blog Card 2 -->
+        <article class="blog-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-48 overflow-hidden" style="background: #FFF1F2;">
+            <img src="https://picsum.photos/seed/blog-skincare-myths/600/400.jpg" alt="Skincare myths" class="blog-img w-full h-full object-cover" />
+            <span class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white" style="background: #E11D48;">Beauty</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-calendar mr-1"></i> Jan 10, 2025</span>
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-clock mr-1"></i> 4 min read</span>
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug mb-2" style="color: #153628;">7 Skincare Myths That Are Actually Damaging Your Skin</h3>
+            <p class="text-xs leading-relaxed mb-4" style="color: rgba(0,0,0,0.4);">Natural doesn't always mean safe. Dermatologists bust the most common skincare misconceptions Indians believe.</p>
+            <span class="blog-read text-xs font-semibold flex items-center gap-1.5" style="color: #1B6B47;">
+              Read More <i class="fas fa-arrow-right text-[10px]"></i>
+            </span>
+          </div>
+        </article>
+
+        <!-- Blog Card 3 -->
+        <article class="blog-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
+          <div class="relative h-48 overflow-hidden" style="background: #FFF8EB;">
+            <img src="https://picsum.photos/seed/blog-supplements-guide/600/400.jpg" alt="Supplements guide" class="blog-img w-full h-full object-cover" />
+            <span class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white" style="background: #B8952F;">Nutrition</span>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-calendar mr-1"></i> Jan 5, 2025</span>
+              <span class="text-[11px]" style="color: rgba(0,0,0,0.3);"><i class="far fa-clock mr-1"></i> 7 min read</span>
+            </div>
+            <h3 class="text-[15px] font-semibold leading-snug mb-2" style="color: #153628;">The Complete Indian Guide to Vitamin D: Why 80% of Us Are Deficient</h3>
+            <p class="text-xs leading-relaxed mb-4" style="color: rgba(0,0,0,0.4);">Despite abundant sunshine, most Indians lack Vitamin D. Learn the right dosage, food sources, and when supplements become essential.</p>
+            <span class="blog-read text-xs font-semibold flex items-center gap-1.5" style="color: #1B6B47;">
+              Read More <i class="fas fa-arrow-right text-[10px]"></i>
+            </span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- NEW: NEWSLETTER CTA                             -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="max-w-7xl mx-auto px-4 md:px-6 mb-16">
+      <div class="rounded-3xl overflow-hidden relative" style="background: linear-gradient(135deg, #1B4332 0%, #153628 40%, #0E2A1E 100%);">
+        <!-- Subtle pattern overlay -->
+        <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 28px 28px;"></div>
+        <!-- Decorative blur blobs -->
+        <div class="absolute top-0 right-0 w-72 h-72 rounded-full opacity-10" style="background: #C5A55A; filter: blur(80px);"></div>
+        <div class="absolute bottom-0 left-0 w-56 h-56 rounded-full opacity-10" style="background: #7FC4A0; filter: blur(60px);"></div>
+
+        <div class="relative z-10 px-8 py-14 md:px-16 md:py-20 text-center">
+          <div class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);">
+            <i class="fas fa-envelope text-[10px]" style="color: #C5A55A;"></i>
+            <span class="text-xs font-medium" style="color: rgba(255,255,255,0.7);">Join 12,000+ healthy subscribers</span>
+          </div>
+
+          <h2 class="font-display font-semibold text-2xl md:text-4xl tracking-tight mb-4 max-w-lg mx-auto" style="color: #ffffff;">
+            Health tips, exclusive offers,<br/>
+            <span style="color: #DDD0AA;">delivered weekly.</span>
+          </h2>
+          <p class="text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed" style="color: rgba(255,255,255,0.55);">
+            No spam, no fluff. Just one curated email every week with health advice, new products, and member-only discounts.
+          </p>
+
+          <form id="nl-form" class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto">
+            <input
+              id="nl-email"
+              type="email"
+              placeholder="Enter your email address"
+              required
+              class="nl-input w-full sm:flex-1 h-12 px-5 rounded-xl text-sm border"
+              style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: #ffffff;"
+            />
+            <button type="submit" class="w-full sm:w-auto h-12 px-7 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 shrink-0" style="background: #C5A55A; color: white;">
+              <span>Subscribe</span>
+              <i class="fas fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+
+          <p class="text-[11px] mt-4" style="color: rgba(255,255,255,0.25);">
+            <i class="fas fa-lock mr-1"></i> We respect your privacy. Unsubscribe anytime.
+          </p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -813,16 +1228,16 @@
             More than a pharmacy — your neighborhood wellness destination. Quality medicines, curated health products, and expert care, delivered to your doorstep.
           </p>
           <div class="flex items-center gap-3">
-            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
               <i class="fab fa-instagram text-sm"></i>
             </a>
-            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
               <i class="fab fa-facebook-f text-sm"></i>
             </a>
-            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
               <i class="fab fa-whatsapp text-sm"></i>
             </a>
-            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
+            <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);">
               <i class="fab fa-youtube text-sm"></i>
             </a>
           </div>
@@ -889,8 +1304,28 @@
     </div>
   </footer>
 
+  <!-- ===== BACK TO TOP BUTTON ===== -->
+  <button id="back-to-top" class="back-to-top fixed bottom-6 right-6 z-50 w-12 h-12 rounded-xl flex items-center justify-center shadow-lg" style="background: #1B4332; color: white;">
+    <i class="fas fa-arrow-up text-sm"></i>
+  </button>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div id="toast" class="toast fixed bottom-6 left-6 z-50 bg-white rounded-2xl shadow-xl border border-black/5 p-4 flex items-center gap-3 max-w-sm" style="display: none;">
+    <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background: #DCFCE7;">
+      <i class="fas fa-check text-sm" style="color: #166534;"></i>
+    </div>
+    <div>
+      <div id="toast-title" class="text-sm font-semibold" style="color: #153628;">Success!</div>
+      <div id="toast-msg" class="text-xs" style="color: rgba(0,0,0,0.45);">Action completed.</div>
+    </div>
+    <button id="toast-close" class="ml-2 w-7 h-7 rounded-lg flex items-center justify-center shrink-0 hover:bg-gray-100" style="color: rgba(0,0,0,0.3);">
+      <i class="fas fa-times text-xs"></i>
+    </button>
+  </div>
+
   <!-- ===== SCRIPTS ===== -->
   <script>
+    // ── Mobile Drawer ──
     const mobToggle = document.getElementById('mob-toggle');
     const mobClose = document.getElementById('mob-close');
     const mobDrawer = document.getElementById('mob-drawer');
@@ -904,6 +1339,7 @@
     mobOverlay.addEventListener('click', closeDrawer);
     mobDrawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeDrawer));
 
+    // ── Ctrl+K Search Focus ──
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
@@ -912,11 +1348,13 @@
       }
     });
 
+    // ── Header shadow on scroll ──
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
       header.style.boxShadow = window.scrollY > 20 ? '0 4px 20px rgba(0,0,0,0.06)' : 'none';
     });
 
+    // ── Scroll-reveal for sections ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -932,6 +1370,167 @@
       section.style.transform = 'translateY(20px)';
       section.style.transition = 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
       observer.observe(section);
+    });
+
+    // ── Testimonial Carousel ──
+    const testiTrack = document.getElementById('testi-track');
+    const testiContainer = document.getElementById('testi-container');
+    const testiDots = document.querySelectorAll('.testi-dot');
+    const testiPrev = document.getElementById('testi-prev');
+    const testiNext = document.getElementById('testi-next');
+    let testiIndex = 0;
+    let testiAutoTimer;
+
+    function getTestiSlideWidth() {
+      if (window.innerWidth >= 768) {
+        return testiContainer.offsetWidth / 2 + 10; // 50% width + gap
+      }
+      return testiContainer.offsetWidth + 20; // full width + gap
+    }
+
+    function getMaxTestiIndex() {
+      const totalCards = testiTrack.children.length;
+      if (window.innerWidth >= 768) {
+        return Math.max(0, totalCards - 2);
+      }
+      return Math.max(0, totalCards - 1);
+    }
+
+    function updateTestiCarousel() {
+      const slideW = getTestiSlideWidth();
+      testiTrack.style.transform = `translateX(-${testiIndex * slideW}px)`;
+      testiDots.forEach((dot, i) => {
+        if (i === testiIndex) {
+          dot.classList.add('active');
+          dot.style.width = '24px';
+          dot.style.background = '#1B4332';
+        } else {
+          dot.classList.remove('active');
+          dot.style.width = '8px';
+          dot.style.background = 'rgba(0,0,0,0.12)';
+        }
+      });
+    }
+
+    function nextTesti() {
+      testiIndex = testiIndex >= getMaxTestiIndex() ? 0 : testiIndex + 1;
+      updateTestiCarousel();
+    }
+
+    function prevTesti() {
+      testiIndex = testiIndex <= 0 ? getMaxTestiIndex() : testiIndex - 1;
+      updateTestiCarousel();
+    }
+
+    function startTestiAuto() {
+      testiAutoTimer = setInterval(nextTesti, 5000);
+    }
+
+    function resetTestiAuto() {
+      clearInterval(testiAutoTimer);
+      startTestiAuto();
+    }
+
+    testiNext.addEventListener('click', () => { nextTesti(); resetTestiAuto(); });
+    testiPrev.addEventListener('click', () => { prevTesti(); resetTestiAuto(); });
+    testiDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        testiIndex = parseInt(dot.dataset.index);
+        updateTestiCarousel();
+        resetTestiAuto();
+      });
+    });
+
+    // Touch swipe for testimonials
+    let testiTouchStartX = 0;
+    let testiTouchEndX = 0;
+    testiContainer.addEventListener('touchstart', (e) => {
+      testiTouchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    testiContainer.addEventListener('touchend', (e) => {
+      testiTouchEndX = e.changedTouches[0].screenX;
+      const diff = testiTouchStartX - testiTouchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextTesti();
+        else prevTesti();
+        resetTestiAuto();
+      }
+    }, { passive: true });
+
+    startTestiAuto();
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      testiIndex = Math.min(testiIndex, getMaxTestiIndex());
+      updateTestiCarousel();
+    });
+
+    // ── Newsletter Form ──
+    const nlForm = document.getElementById('nl-form');
+    const nlEmail = document.getElementById('nl-email');
+
+    // Placeholder color override for dark input
+    nlEmail.style.setProperty('--placeholder-color', 'rgba(255,255,255,0.3)');
+
+    nlForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = nlEmail.value.trim();
+      if (email) {
+        showToast('Subscribed!', `We'll send health tips to ${email}`);
+        nlEmail.value = '';
+      }
+    });
+
+    // ── Toast Notification System ──
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastMsg = document.getElementById('toast-msg');
+    const toastClose = document.getElementById('toast-close');
+    let toastTimer;
+
+    function showToast(title, msg) {
+      toastTitle.textContent = title;
+      toastMsg.textContent = msg;
+      toast.style.display = 'flex';
+      clearTimeout(toastTimer);
+      // Force reflow then show
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+      toastTimer = setTimeout(hideToast, 4000);
+    }
+
+    function hideToast() {
+      toast.classList.remove('show');
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 400);
+    }
+
+    toastClose.addEventListener('click', hideToast);
+
+    // ── Add to Cart Buttons (show toast) ──
+    document.querySelectorAll('.prod-atc').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.prod-card');
+        const productName = card ? card.querySelector('h3').textContent : 'Product';
+        showToast('Added to Cart!', productName.substring(0, 40) + (productName.length > 40 ? '…' : ''));
+      });
+    });
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 
