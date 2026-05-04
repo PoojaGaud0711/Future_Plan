@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishlist — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { forest: { 50:'#F0F7F4',700:'#1B4332',500:'#2D8A5E',600:'#1B6B47' }, cream: '#FDF8F0', gold: { 400:'#C5A55A' } },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    .bg-dark-top{background-color:#1B4332}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    
+    .wish-card{transition:all .3s ease}
+    .wish-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .wish-card:hover .wish-img{transform:scale(1.03)}
+    .wish-img{transition:transform .4s ease}
+
+    .toast{transform:translateY(20px);opacity:0;transition:all .4s ease;position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:100}
+    .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="bg-dark-top text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
+      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
+      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+    </div>
+  </div>
+  <header class="sticky top-0 z-40 border-b border-black/5 bg-white/92" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-forest-700"><span class="font-display font-bold text-white text-sm">V</span></div>
+        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
+      </a>
+      <a href="#" class="flex items-center gap-2 text-sm font-medium" style="color:rgba(0,0,0,.5)"><i class="fas fa-arrow-left text-xs"></i> Continue Shopping</a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8">
+    
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h1 class="font-display font-semibold text-2xl md:text-3xl tracking-tight" style="color:#153628">My Wishlist</h1>
+        <p class="text-sm mt-1" style="color:rgba(0,0,0,.4)">Items you've saved for later (<span id="wish-count">3</span> items)</p>
+      </div>
+      <button onclick="clearAll()" class="text-xs font-semibold px-4 py-2 rounded-lg border" style="border-color:rgba(0,0,0,.08);color:#DC2626">Clear All</button>
+    </div>
+
+    <div id="wishlist-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      
+      <!-- Item 1: General Item -->
+      <div class="wish-card bg-white rounded-2xl border border-black/5 overflow-hidden">
+        <div class="relative aspect-square overflow-hidden bg-forest-50">
+          <img src="https://picsum.photos/seed/beauty-serum/400/400.jpg" class="wish-img w-full h-full object-cover">
+          <button onclick="removeItem(this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white shadow flex items-center justify-center text-gray-400 hover:text-red-500 hover:scale-110 transition-all"><i class="fas fa-times text-xs"></i></button>
+        </div>
+        <div class="p-4">
+          <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color:rgba(0,0,0,.3)">Mamaearth</p>
+          <h3 class="text-sm font-semibold leading-snug mb-3 line-clamp-2" style="color:#153628">Vitamin C Serum 30ml</h3>
+          <div class="flex items-center justify-between mb-3">
+            <div><span class="text-base font-bold" style="color:#1B4332">₹399</span><span class="text-xs line-through ml-1" style="color:rgba(0,0,0,.3)">₹549</span></div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color:#166534;background:#DCFCE7">27% off</span>
+          </div>
+          <button onclick="moveToCart(this, 'Vitamin C Serum')" class="w-full h-10 rounded-xl text-xs font-semibold border flex items-center justify-center gap-2 hover:bg-forest-700 hover:text-white hover:border-forest-700 transition-all" style="border-color:rgba(0,0,0,.08);color:#1B4332">
+            <i class="fas fa-shopping-bag text-[10px]"></i> Move to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Item 2: Rx Medicine -->
+      <div class="wish-card bg-white rounded-2xl border border-black/5 overflow-hidden relative">
+        <div class="absolute top-0 left-0 w-24 h-24 flex items-center justify-center" style="background:linear-gradient(135deg, #FEE2E2 0%, transparent 50%)">
+          <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-bl-xl" style="background:#DC2626;color:white">Rx</span>
+        </div>
+        <div class="relative aspect-square overflow-hidden bg-forest-50">
+          <img src="https://picsum.photos/seed/med-omeprazole/400/400.jpg" class="wish-img w-full h-full object-cover">
+          <button onclick="removeItem(this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white shadow flex items-center justify-center text-gray-400 hover:text-red-500 hover:scale-110 transition-all"><i class="fas fa-times text-xs"></i></button>
+        </div>
+        <div class="p-4">
+          <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color:rgba(0,0,0,.3)">Dr. Reddys</p>
+          <h3 class="text-sm font-semibold leading-snug mb-3 line-clamp-2" style="color:#153628">Omeprazole 20mg</h3>
+          <div class="flex items-center justify-between mb-3">
+            <div><span class="text-base font-bold" style="color:#1B4332">₹65</span><span class="text-xs line-through ml-1" style="color:rgba(0,0,0,.3)">₹85</span></div>
+          </div>
+          <button onclick="moveRxToCart(this, 'Omeprazole')" class="w-full h-10 rounded-xl text-xs font-semibold border flex items-center justify-center gap-2 transition-all" style="border-color:rgba(0,0,0,.08);color:#1B4332;background:#FFFBEB;border-color:#FDE68A;color:#92400E" title="Requires Prescription">
+            <i class="fas fa-file-prescription text-[10px]"></i> Move to Cart (Rx)
+          </button>
+        </div>
+      </div>
+
+      <!-- Item 3: Snack -->
+      <div class="wish-card bg-white rounded-2xl border border-black/5 overflow-hidden">
+        <div class="relative aspect-square overflow-hidden bg-forest-50">
+          <img src="https://picsum.photos/seed/snack-peanutbutter/400/400.jpg" class="wish-img w-full h-full object-cover">
+          <button onclick="removeItem(this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white shadow flex items-center justify-center text-gray-400 hover:text-red-500 hover:scale-110 transition-all"><i class="fas fa-times text-xs"></i></button>
+          <span class="absolute bottom-3 left-3 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md text-white" style="background:#C5A55A">Bestseller</span>
+        </div>
+        <div class="p-4">
+          <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color:rgba(0,0,0,.3)">Pintola</p>
+          <h3 class="text-sm font-semibold leading-snug mb-3 line-clamp-2" style="color:#153628">Peanut Butter Crunchy 1kg</h3>
+          <div class="flex items-center justify-between mb-3">
+            <div><span class="text-base font-bold" style="color:#1B4332">₹449</span><span class="text-xs line-through ml-1" style="color:rgba(0,0,0,.3)">₹599</span></div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color:#166534;background:#DCFCE7">25% off</span>
+          </div>
+          <button onclick="moveToCart(this, 'Peanut Butter')" class="w-full h-10 rounded-xl text-xs font-semibold border flex items-center justify-center gap-2 hover:bg-forest-700 hover:text-white hover:border-forest-700 transition-all" style="border-color:rgba(0,0,0,.08);color:#1B4332">
+            <i class="fas fa-shopping-bag text-[10px]"></i> Move to Cart
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty State (Hidden by default) -->
+    <div id="empty-state" class="hidden text-center py-24">
+      <div class="w-24 h-24 rounded-full bg-forest-50 flex items-center justify-center mx-auto mb-6">
+        <i class="far fa-heart text-3xl" style="color:#B3DBC5"></i>
+      </div>
+      <h2 class="font-display font-semibold text-2xl mb-2" style="color:#153628">Your wishlist is empty</h2>
+      <p class="text-sm mb-8 max-w-sm mx-auto" style="color:rgba(0,0,0,.4)">Save items you love to your wishlist. Review them anytime and easily move them to your cart.</p>
+      <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold px-6 h-12 rounded-xl text-white shadow-md" style="background:#1B4332">
+        Start Shopping <i class="fas fa-arrow-right text-xs"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-forest-800 text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 text-center text-xs" style="color:rgba(255,255,255,.25)">
+      © 2025 Vrinda Wellness. All rights reserved. | Privacy Policy | Terms
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast bg-white rounded-xl shadow-2xl border border-gray-100 px-5 py-4 flex items-center gap-3" style="display:none">
+    <div id="toast-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:#DCFCE7"><i class="fas fa-check text-sm" style="color:#166534"></i></div>
+    <div><div id="toast-title" class="text-sm font-bold" style="color:#153628">Moved to Cart!</div><div id="toast-msg" class="text-xs" style="color:rgba(0,0,0,.45)">Done.</div></div>
+  </div>
+
+  <script>
+    let count = 3;
+
+    function removeItem(btn) {
+      const card = btn.closest('.wish-card');
+      card.style.transform = 'scale(0.9)';
+      card.style.opacity = '0';
+      setTimeout(() => {
+        card.remove();
+        count--;
+        document.getElementById('wish-count').textContent = count;
+        if(count === 0) {
+          document.getElementById('wishlist-grid').classList.add('hidden');
+          document.getElementById('empty-state').classList.remove('hidden');
+        }
+      }, 300);
+    }
+
+    function clearAll() {
+      document.querySelectorAll('.wish-card').forEach((card, i) => {
+        setTimeout(() => {
+          card.style.transform = 'scale(0.9)';
+          card.style.opacity = '0';
+          setTimeout(() => card.remove(), 300);
+        }, i * 100);
+      });
+      setTimeout(() => {
+        document.getElementById('wishlist-grid').classList.add('hidden');
+        document.getElementById('empty-state').classList.remove('hidden');
+      }, count * 100 + 300);
+      count = 0;
+    }
+
+    function moveToCart(btn, name) {
+      btn.innerHTML = '<i class="fas fa-check text-[10px]"></i> Added';
+      btn.style.background = '#1B4332';
+      btn.style.color = 'white';
+      btn.style.borderColor = '#1B4332';
+      btn.disabled = true;
+      showToast('Moved to Cart', `${name} added to your shopping bag.`);
+    }
+
+    function moveRxToCart(btn, name) {
+      showToast('Rx Notice', `${name} requires a prescription to checkout.`, 'warning');
+      // In real app, redirect to PDP with Rx modal trigger
+    }
+
+    function showToast(title, msg, type) {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+
+      if(type === 'warning') {
+        icon.style.background = '#FEF3C7';
+        icon.innerHTML = '<i class="fas fa-exclamation-triangle text-sm" style="color:#D97706"></i>';
+      } else {
+        icon.style.background = '#DCFCE7';
+        icon.innerHTML = '<i class="fas fa-check text-sm" style="color:#166534"></i>';
+      }
+
+      toast.style.display = 'flex';
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.style.display = 'none', 400);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
