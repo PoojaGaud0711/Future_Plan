@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0', gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    .bg-dark-top{background-color:#1B4332}
+    .bg-dark-footer{background-color:#153628}
+    a,button{transition:all .3s cubic-bezier(.22,1,.36,1)}
+    
+    /* Step Indicator */
+    .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid rgba(0,0,0,.1);color:rgba(0,0,0,.3);background:white;transition:all .3s ease}
+    .step-dot.active{background:#1B4332;color:white;border-color:#1B4332}
+    .step-line{height:2px;width:60px;background:rgba(0,0,0,.08);transition:all .3s ease}
+    .step-line.active{background:#1B4332}
+    .step-label{font-size:11px;font-weight:600;color:rgba(0,0,0,.25);transition:all .3s ease}
+    .step-label.active{color:#1B4332}
+
+    /* Sections */
+    .section-view{display:none;animation:fadeUp .4s ease forwards}
+    .section-view.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    
+    /* Inputs */
+    .form-input{width:100%;height:44px;padding:0 14px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;background:white;font-size:13px;color:#153628;transition:all .2s ease;outline:none}
+    .form-input:focus{border-color:#1B4332;box-shadow:0 0 0 3px rgba(27,67,50,.08)}
+    textarea.form-input{height:auto;padding:12px 14px;resize:none}
+
+    /* Radio Cards */
+    .radio-card{border:1.5px solid rgba(0,0,0,.08);border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .2s ease;display:flex;align-items:center;gap:12px;background:white}
+    .radio-card:hover{border-color:rgba(0,0,0,.15)}
+    .radio-card.selected{border-color:#1B4332;background:#F0F7F4}
+    .radio-circle{width:18px;height:18px;border-radius:50%;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;transition:all .2s ease;flex-shrink:0}
+    .radio-card.selected .radio-circle{border-color:#1B4332}
+    .radio-circle::after{content:'';width:10px;height:10px;border-radius:50%;background:#1B4332;transform:scale(0);transition:all .2s ease}
+    .radio-card.selected .radio-circle::after{transform:scale(1)}
+
+    /* Time Slots */
+    .slot-btn{padding:8px 12px;border:1px solid rgba(0,0,0,.08);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;background:white;transition:all .2s ease;text-align:center}
+    .slot-btn:hover{border-color:#1B4332}
+    .slot-btn.selected{background:#1B4332;color:white;border-color:#1B4332}
+
+    .toast{transform:translateY(20px);opacity:0;transition:all .4s ease}
+    .toast.show{transform:translateY(0);opacity:1}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="bg-dark-top text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
+      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
+      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+    </div>
+  </div>
+  <header class="sticky top-0 z-40 border-b border-black/5 bg-white/92" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-forest-700"><span class="font-display font-bold text-white text-sm">V</span></div>
+        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
+      </a>
+      <a href="#" class="flex items-center gap-2 text-sm font-medium" style="color:rgba(0,0,0,.5)"><i class="fas fa-arrow-left text-xs"></i> Continue Shopping</a>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 md:px-6 py-8">
+    
+    <!-- STEP INDICATOR -->
+    <div class="flex items-center justify-center gap-0 mb-10">
+      <div class="flex flex-col items-center gap-1.5">
+        <div class="step-dot active" id="step1-dot">1</div>
+        <span class="step-label active" id="step1-label">Cart</span>
+      </div>
+      <div class="step-line" id="step-line"></div>
+      <div class="flex flex-col items-center gap-1.5">
+        <div class="step-dot" id="step2-dot">2</div>
+        <span class="step-label" id="step2-label">Checkout</span>
+      </div>
+    </div>
+
+    <!-- STEP 1: CART VIEW -->
+    <div id="cart-view" class="section-view active">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          <h2 class="font-display font-semibold text-xl mb-2" style="color:#153628">Your Cart (2 Items)</h2>
+          
+          <!-- Normal Item -->
+          <div class="bg-white rounded-2xl border border-black/5 p-4 flex gap-4">
+            <div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-forest-50">
+              <img src="https://picsum.photos/seed/snack-almonds/200/200.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[10px] font-medium uppercase tracking-wider" style="color:rgba(0,0,0,.3)">Nutraj</p>
+              <h3 class="text-sm font-semibold truncate mb-2" style="color:#153628">California Almonds 250g</h3>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-base font-bold" style="color:#1B4332">₹399</span>
+                  <span class="text-xs line-through ml-1" style="color:rgba(0,0,0,.3)">₹520</span>
+                </div>
+                <button class="text-[11px] font-semibold px-3 py-1 rounded-lg border" style="border-color:#FEE2E2;color:#DC2626" onclick="this.closest('.bg-white').remove(); updateSummary()">Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rx Item with Prescription Attached -->
+          <div class="bg-white rounded-2xl border border-black/5 p-4 flex gap-4 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 flex items-center justify-center" style="background:linear-gradient(225deg, #FEE2E2 0%, transparent 50%)">
+              <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-bl-lg" style="background:#DC2626;color:white">Rx</span>
+            </div>
+            <div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-forest-50">
+              <img src="https://picsum.photos/seed/rx-med-front/200/200.jpg" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[10px] font-medium uppercase tracking-wider" style="color:rgba(0,0,0,.3)">Cipla</p>
+              <h3 class="text-sm font-semibold truncate mb-1" style="color:#153628">Paracetamol 500mg (Strip of 15)</h3>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-base font-bold" style="color:#1B4332">₹35</span>
+                <span class="text-xs line-through" style="color:rgba(0,0,0,.3)">₹45</span>
+              </div>
+              <!-- Attached Prescription UI -->
+              <div class="flex items-center gap-2 p-2 rounded-lg" style="background:#F0FDF4;border:1px solid #DCFCE7">
+                <i class="fas fa-file-prescription text-xs" style="color:#166534"></i>
+                <span class="text-[11px] font-medium truncate" style="color:#166534">prescription_2025.pdf attached</span>
+                <i class="fas fa-check-circle text-xs" style="color:#16A34A"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bill Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-2xl border border-black/5 p-6 sticky top-24">
+            <h3 class="text-sm font-bold uppercase tracking-wider mb-5" style="color:#153628">Bill Summary</h3>
+            <div class="space-y-3 text-sm mb-5" style="color:rgba(0,0,0,.6)">
+              <div class="flex justify-between"><span>Subtotal (2 items)</span><span class="font-semibold" style="color:#153628">₹434.00</span></div>
+              <div class="flex justify-between"><span>Delivery Fee</span><span class="line-through" style="color:rgba(0,0,0,.3)">₹40.00</span></div>
+              <div class="flex justify-between text-xs"><span><i class="fas fa-tag mr-1" style="color:#C5A55A"></i>Discount applied</span><span class="line-through" style="color:rgba(0,0,0,.3)">-₹131.00</span></div>
+              <div class="flex justify-between text-xs font-semibold" style="color:#166534"><span>FREE Delivery</span></div>
+            </div>
+            <div class="h-px my-4" style="background:rgba(0,0,0,.05)"></div>
+            <div class="flex justify-between mb-6">
+              <span class="text-base font-bold" style="color:#153628">Total Amount</span>
+              <span class="text-xl font-bold" style="color:#1B4332">₹434.00</span>
+            </div>
+            <button onclick="goToCheckout()" class="w-full h-12 rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-md" style="background:#1B4332">
+              Proceed to Checkout <i class="fas fa-arrow-right text-xs"></i>
+            </button>
+            <p class="text-[10px] text-center mt-3" style="color:rgba(0,0,0,.25)"><i class="fas fa-lock mr-1"></i> Safe and Secure Payments</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: CHECKOUT VIEW -->
+    <div id="checkout-view" class="section-view">
+      <div class="grid lg:grid-cols-3 gap-8">
+        
+        <!-- Forms -->
+        <div class="lg:col-span-2 space-y-6">
+          
+          <!-- Delivery Address -->
+          <div class="bg-white rounded-2xl border border-black/5 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style="color:#153628">
+              <i class="fas fa-map-marker-alt text-xs" style="color:#1B4332"></i> Delivery Address
+            </h3>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <input type="text" class="form-input" placeholder="Full Name *" value="Rahul Sharma">
+              <input type="tel" class="form-input" placeholder="10-digit Mobile Number *" value="98765 43210">
+              <input type="text" class="form-input sm:col-span-2" placeholder="Flat, House no., Building, Street *" value="402, Lotus Apartments">
+              <input type="text" class="form-input" placeholder="Landmark (Optional)">
+              <input type="text" class="form-input" placeholder="City *" value="Mumbai">
+              <input type="text" class="form-input" placeholder="Pincode *" value="400053">
+              <select class="form-input" style="color:rgba(0,0,0,.6)">
+                <option>Maharashtra</option>
+                <option>Gujarat</option>
+                <option>Delhi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Delivery Time Slot (Pharma Specific) -->
+          <div class="bg-white rounded-2xl border border-black/5 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style="color:#153628">
+              <i class="fas fa-clock text-xs" style="color:#1B4332"></i> Delivery Time Slot
+            </h3>
+            <div class="space-y-3">
+              <div class="radio-card selected" onclick="selectSlot(this)">
+                <div class="radio-circle"></div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold" style="color:#153628">Express Delivery (Within 2 hours)</p>
+                  <p class="text-[11px]" style="color:rgba(0,0,0,.4)">For urgent medicine needs</p>
+                </div>
+                <span class="text-xs font-bold px-2 py-1 rounded-md" style="background:#F0F7F4;color:#1B6B47">₹40</span>
+              </div>
+              <div class="radio-card" onclick="selectSlot(this)">
+                <div class="radio-circle"></div>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold" style="color:#153628">Standard Delivery (Today by 8 PM)</p>
+                  <p class="text-[11px]" style="color:rgba(0,0,0,.4)">Free on orders above ₹299</p>
+                </div>
+                <span class="text-xs font-bold px-2 py-1 rounded-md" style="background:#DCFCE7;color:#166534">FREE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="bg-white rounded-2xl border border-black/5 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style="color:#153628">
+              <i class="fas fa-wallet text-xs" style="color:#1B4332"></i> Payment Method
+            </h3>
+            <div class="space-y-3">
+              <div class="radio-card selected" onclick="selectPayment(this)">
+                <div class="radio-circle"></div>
+                <i class="fas fa-mobile-alt text-lg" style="color:#5B5FC7"></i>
+                <div>
+                  <p class="text-sm font-semibold" style="color:#153628">UPI (GPay / PhonePe / Paytm)</p>
+                </div>
+              </div>
+              <div class="radio-card" onclick="selectPayment(this)">
+                <div class="radio-circle"></div>
+                <i class="fas fa-money-bill-wave text-lg" style="color:#166534"></i>
+                <div>
+                  <p class="text-sm font-semibold" style="color:#153628">Cash on Delivery</p>
+                  <p class="text-[11px]" style="color:rgba(0,0,0,.4)">Pay when your order arrives</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rx Disclaimer -->
+          <div class="flex items-start gap-3 p-4 rounded-xl border" style="background:#FFFBEB;border-color:#FDE68A">
+            <i class="fas fa-info-circle mt-0.5" style="color:#D97706"></i>
+            <p class="text-xs leading-relaxed" style="color:#92400E">
+              <strong>Note:</strong> Your order contains prescription medicine. It will be verified by our licensed pharmacist before dispatch. If the prescription is invalid, a full refund will be initiated to your original payment method.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Right Side Sticky Summary -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-2xl border border-black/5 p-6 sticky top-24">
+            <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color:#153628">Order Summary</h3>
+            <div class="space-y-3 mb-4 pb-4" style="border-bottom:1px solid rgba(0,0,0,.05)">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg overflow-hidden bg-forest-50"><img src="https://picsum.photos/seed/snack-almonds/100/100.jpg" class="w-full h-full object-cover"></div>
+                <div class="flex-1 min-w-0"><p class="text-xs font-semibold truncate" style="color:#153628">California Almonds</p><p class="text-[10px]" style="color:rgba(0,0,0,.3)">Qty: 1</p></div>
+                <span class="text-sm font-semibold" style="color:#153628">₹399</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg overflow-hidden bg-forest-50 relative"><img src="https://picsum.photos/seed/rx-med-front/100/100.jpg" class="w-full h-full object-cover"><span class="absolute bottom-0 right-0 bg-red-600 text-white text-[7px] font-bold px-1">Rx</span></div>
+                <div class="flex-1 min-w-0"><p class="text-xs font-semibold truncate" style="color:#153628">Paracetamol 500mg</p><p class="text-[10px]" style="color:rgba(0,0,0,.3)">Qty: 1</p></div>
+                <span class="text-sm font-semibold" style="color:#153628">₹35</span>
+              </div>
+            </div>
+            
+            <div class="space-y-2 text-sm mb-4" style="color:rgba(0,0,0,.6)">
+              <div class="flex justify-between"><span>Subtotal</span><span class="font-semibold" style="color:#153628">₹434.00</span></div>
+              <div class="flex justify-between"><span>Delivery</span><span class="font-semibold" style="color:#166534">₹40.00</span></div>
+            </div>
+            <div class="h-px my-4" style="background:rgba(0,0,0,.05)"></div>
+            <div class="flex justify-between mb-6">
+              <span class="text-base font-bold" style="color:#153628">Total Payable</span>
+              <span class="text-xl font-bold" style="color:#1B4332">₹474.00</span>
+            </div>
+
+            <div class="flex gap-3">
+              <button onclick="goToCart()" class="flex-1 h-12 rounded-xl text-sm font-semibold border flex items-center justify-center gap-2" style="border-color:rgba(0,0,0,.1);color:rgba(0,0,0,.5)">
+                <i class="fas fa-arrow-left text-xs"></i> Back
+              </button>
+              <button onclick="placeOrder()" class="flex-[2] h-12 rounded-xl text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-md" style="background:#1B4332">
+                <i class="fas fa-lock text-xs"></i> Place Order
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark-footer text-white mt-12">
+    <div class="max-w-5xl mx-auto px-4 md:px-6 py-6 text-center text-xs" style="color:rgba(255,255,255,.25)">
+      © 2025 Vrinda Wellness. All rights reserved. | Privacy Policy | Terms
+    </div>
+  </footer>
+
+  <!-- SUCCESS TOAST -->
+  <div id="toast" class="toast fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-white rounded-2xl shadow-2xl border border-black/5 px-6 py-4 flex items-center gap-3" style="display:none">
+    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:#DCFCE7"><i class="fas fa-check text-base" style="color:#166534"></i></div>
+    <div><div id="toast-title" class="text-sm font-bold" style="color:#153628">Order Placed!</div><div id="toast-msg" class="text-xs" style="color:rgba(0,0,0,.45)">Done.</div></div>
+  </div>
+
+
+  <script>
+    // Step Management
+    function goToCheckout() {
+      document.getElementById('cart-view').classList.remove('active');
+      document.getElementById('checkout-view').classList.add('active');
+      document.getElementById('step1-dot').classList.remove('active');
+      document.getElementById('step1-label').classList.remove('active');
+      document.getElementById('step2-dot').classList.add('active');
+      document.getElementById('step2-label').classList.add('active');
+      document.getElementById('step-line').classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    function goToCart() {
+      document.getElementById('checkout-view').classList.remove('active');
+      document.getElementById('cart-view').classList.add('active');
+      document.getElementById('step1-dot').classList.add('active');
+      document.getElementById('step1-label').classList.add('active');
+      document.getElementById('step2-dot').classList.remove('active');
+      document.getElementById('step2-label').classList.remove('active');
+      document.getElementById('step-line').classList.remove('active');
+      window.scrollTo(0,0);
+    }
+
+    // Custom Radio Selectors
+    function selectSlot(el) {
+      el.parentElement.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    function selectPayment(el) {
+      el.parentElement.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    // Place Order Mock
+    function placeOrder() {
+      const btn = event.target.closest('button');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> Processing...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        document.getElementById('toast-title').textContent = "Order Placed Successfully!";
+        document.getElementById('toast-msg').textContent = "Order ID: #VW84729. Preparing for dispatch.";
+        const toast = document.getElementById('toast');
+        toast.style.display = 'flex';
+        requestAnimationFrame(() => toast.classList.add('show'));
+        
+        btn.innerHTML = '<i class="fas fa-check text-xs"></i> Placed';
+        btn.style.background = '#166534';
+      }, 1500);
+    }
+
+    function updateSummary() {
+      // In a real app, this recalculates totals based on removed items
+    }
+  </script>
+</body>
+</html>
