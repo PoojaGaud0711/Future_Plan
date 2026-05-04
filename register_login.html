@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0', gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    .form-input{width:100%;height:48px;padding:0 16px;border:1.5px solid rgba(0,0,0,.1);border-radius:12px;background:white;font-size:14px;color:#153628;transition:all .2s ease;outline:none}
+    .form-input:focus{border-color:#1B4332;box-shadow:0 0 0 3px rgba(27,67,50,.08)}
+    
+    .auth-tab{flex:1;padding:12px;text-align:center;font-size:14px;font-weight:600;color:rgba(0,0,0,.35);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s ease}
+    .auth-tab.active{color:#1B4332;border-bottom-color:#1B4332}
+    
+    .form-view{display:none;animation:fadeUp .3s ease forwards}
+    .form-view.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    
+    .divider-text{display:flex;align-items:center;gap:12px;color:rgba(0,0,0,.25);font-size:12px}
+    .divider-text::before,.divider-text::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.06)}
+
+    .toast{transform:translateY(20px);opacity:0;transition:all .4s ease;position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);z-index:100}
+    .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  </style>
+</head>
+<body class="min-h-screen flex">
+
+  <!-- LEFT: Branding Panel (Hidden on Mobile) -->
+  <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden" style="background:linear-gradient(135deg,#1B4332 0%,#153628 50%,#0E2A1E 100%)">
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image:radial-gradient(circle at 1px 1px,white 1px,transparent 0);background-size:32px 32px"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style="background:#C5A55A;filter:blur(100px)"></div>
+    
+    <div class="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+      <a href="index.html" class="flex items-center gap-2.5 w-fit">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-white/10 border border-white/20"><span class="font-display font-bold text-white text-lg">V</span></div>
+        <div><div class="font-display font-semibold text-lg leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-300 -mt-0.5">Wellness</div></div>
+      </a>
+
+      <div class="max-w-md">
+        <h1 class="font-display font-semibold text-4xl leading-tight mb-6">Your health,<br/><span style="color:#DDD0AA">in safe hands.</span></h1>
+        <p class="text-base leading-relaxed mb-8" style="color:rgba(255,255,255,.6)">Access genuine medicines, upload prescriptions, and get them delivered safely to your doorstep.</p>
+        
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i class="fas fa-shield-alt text-sm" style="color:#C5A55A"></i></div>
+            <div><p class="text-sm font-semibold">100% Genuine</p><p class="text-xs" style="color:rgba(255,255,255,.4)">Licensed pharmacy network</p></div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i class="fas fa-lock text-sm" style="color:#C5A55A"></i></div>
+            <div><p class="text-sm font-semibold">Secure Data</p><p class="text-xs" style="color:rgba(255,255,255,.4)">Your medical data is encrypted</p></div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i class="fas fa-truck text-sm" style="color:#C5A55A"></i></div>
+            <div><p class="text-sm font-semibold">Express Delivery</p><p class="text-xs" style="color:rgba(255,255,255,.4)">Same-day within your locality</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs" style="color:rgba(255,255,255,.2)">© 2025 Vrinda Wellness. All rights reserved.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: Auth Forms -->
+  <div class="flex-1 flex items-center justify-center p-6 sm:p-12">
+    <div class="w-full max-w-md">
+      
+      <!-- Mobile Logo Only -->
+      <a href="index.html" class="flex items-center gap-2.5 mb-8 lg:hidden w-fit">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-forest-700"><span class="font-display font-bold text-white text-lg">V</span></div>
+        <div><div class="font-display font-semibold text-lg text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
+      </a>
+
+      <!-- Tabs -->
+      <div class="flex mb-8 border-b" style="border-color:rgba(0,0,0,.06)">
+        <div class="auth-tab active" onclick="switchAuth('login')">Login</div>
+        <div class="auth-tab" onclick="switchAuth('register')">Create Account</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-view" class="form-view active">
+        <h2 class="font-display font-semibold text-2xl mb-2" style="color:#153628">Welcome back!</h2>
+        <p class="text-sm mb-8" style="color:rgba(0,0,0,.4)">Enter your credentials to access your account</p>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Email Address</label>
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-sm" style="color:rgba(0,0,0,.2)"></i>
+              <input type="email" class="form-input pl-11" placeholder="rahul@example.com">
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-semibold" style="color:rgba(0,0,0,.5)">Password</label>
+              <a href="#" class="text-[11px] font-semibold" style="color:#1B6B47">Forgot Password?</a>
+            </div>
+            <div class="relative">
+              <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-sm" style="color:rgba(0,0,0,.2)"></i>
+              <input type="password" class="form-input pl-11" placeholder="Enter your password" value="password123">
+              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-sm" style="color:rgba(0,0,0,.2)"><i class="far fa-eye"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="handleLogin()" class="w-full h-12 rounded-xl text-white text-sm font-semibold mt-6 shadow-md flex items-center justify-center gap-2" style="background:#1B4332">
+          Login <i class="fas fa-arrow-right text-xs"></i>
+        </button>
+
+        <div class="divider-text my-6">OR</div>
+
+        <button class="w-full h-12 rounded-xl border text-sm font-medium flex items-center justify-center gap-3 mb-4" style="border-color:rgba(0,0,0,.08);color:rgba(0,0,0,.6)">
+          <i class="fas fa-mobile-alt text-lg text-forest-600"></i> Request OTP on Mobile
+        </button>
+
+        <p class="text-center text-xs mt-6" style="color:rgba(0,0,0,.4)">
+          Don't have an account? <button onclick="switchAuth('register')" class="font-semibold" style="color:#1B6B47">Sign Up</button>
+        </p>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="register-view" class="form-view">
+        <h2 class="font-display font-semibold text-2xl mb-2" style="color:#153628">Create an account</h2>
+        <p class="text-sm mb-8" style="color:rgba(0,0,0,.4)">Join Vrinda Wellness for a seamless healthcare experience</p>
+        
+        <!-- Backend Note for Developer -->
+        <div class="p-3 rounded-lg mb-6 text-[11px] leading-relaxed" style="background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE">
+          <i class="fas fa-code mr-1"></i> <strong>Dev Note:</strong> Do NOT add a "Role" dropdown here. The backend API must automatically assign <code>role: "USER"</code> upon creation to prevent privilege escalation.
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Full Name</label>
+            <input type="text" class="form-input" placeholder="Rahul Sharma">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Mobile Number</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium" style="color:rgba(0,0,0,.3)">+91</span>
+              <input type="tel" class="form-input pl-12" placeholder="98765 43210" maxlength="10">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Email Address</label>
+            <input type="email" class="form-input" placeholder="rahul@example.com">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Password</label>
+            <div class="relative">
+              <input type="password" class="form-input" placeholder="Min 8 characters">
+              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-sm" style="color:rgba(0,0,0,.2)"><i class="far fa-eye"></i></button>
+            </div>
+          </div>
+          
+          <label class="flex items-start gap-3 cursor-pointer pt-2">
+            <input type="checkbox" class="mt-0.5 w-4 h-4 accent-forest-700">
+            <span class="text-xs leading-relaxed" style="color:rgba(0,0,0,.4)">I agree to the <a href="#" class="font-semibold text-forest-600">Terms & Conditions</a> and <a href="#" class="font-semibold text-forest-600">Privacy Policy</a>. I acknowledge that prescription medicines will only be dispensed upon valid verification.</span>
+          </label>
+        </div>
+
+        <button onclick="handleRegister()" class="w-full h-12 rounded-xl text-white text-sm font-semibold mt-6 shadow-md" style="background:#1B4332">
+          Create Account
+        </button>
+
+        <p class="text-center text-xs mt-6" style="color:rgba(0,0,0,.4)">
+          Already have an account? <button onclick="switchAuth('login')" class="font-semibold" style="color:#1B6B47">Login</button>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast bg-white rounded-xl shadow-2xl border border-gray-100 px-5 py-4 flex items-center gap-3" style="display:none">
+    <div id="toast-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:#DCFCE7"><i class="fas fa-check text-sm" style="color:#166534"></i></div>
+    <div><div id="toast-title" class="text-sm font-bold" style="color:#153628">Success!</div><div id="toast-msg" class="text-xs" style="color:rgba(0,0,0,.45)">Done.</div></div>
+  </div>
+
+  <script>
+    function switchAuth(view) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+      
+      if(view === 'login') {
+        document.querySelectorAll('.auth-tab')[0].classList.add('active');
+        document.getElementById('login-view').classList.add('active');
+      } else {
+        document.querySelectorAll('.auth-tab')[1].classList.add('active');
+        document.getElementById('register-view').classList.add('active');
+      }
+    }
+
+    function handleLogin() {
+      showToast('Login Successful', 'Redirecting to your dashboard...');
+      setTimeout(() => window.location.href = 'dashboard.html', 1500);
+    }
+
+    function handleRegister() {
+      showToast('Account Created', 'Welcome to Vrinda Wellness!');
+      setTimeout(() => switchAuth('login'), 1500);
+    }
+
+    function showToast(title, msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.style.display = 'none', 400);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
