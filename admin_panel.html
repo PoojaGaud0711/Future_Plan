@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0', gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:#F3F4F6;color:#1a1a1a}
+    
+    /* Sidebar */
+    .sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:rgba(0,0,0,.5);cursor:pointer;transition:all .2s ease;margin-bottom:4px}
+    .sidebar-link:hover{background:rgba(27,67,50,.04);color:#1B4332}
+    .sidebar-link.active{background:#1B4332;color:white;box-shadow:0 4px 12px rgba(27,67,50,.2)}
+    .sidebar-link i{width:20px;text-align:center;font-size:15px}
+
+    /* Table */
+    .admin-table{width:100%;border-collapse:separate;border-spacing:0}
+    .admin-table th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:rgba(0,0,0,.4);background:#F9FAFB;border-bottom:1px solid rgba(0,0,0,.05)}
+    .admin-table td{padding:16px;font-size:13px;border-bottom:1px solid rgba(0,0,0,.04);vertical-align:middle}
+    .admin-table tbody tr{background:white;transition:all .2s ease}
+    .admin-table tbody tr:hover{background:#F0F7F4}
+
+    /* Status Badges */
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600}
+    .badge-pending{background:#FEF3C7;color:#92400E}
+    .badge-approved{background:#DCFCE7;color:#166534}
+    .badge-rejected{background:#FEE2E2;color:#991B1B}
+    .badge-processing{background:#DBEAFE;color:#1E40AF}
+
+    /* Modal */
+    .modal-overlay{opacity:0;visibility:hidden;transition:all .3s ease}
+    .modal-overlay.open{opacity:1;visibility:visible}
+    .modal-box{transform:scale(.95);transition:all .3s cubic-bezier(.22,1,.36,1)}
+    .modal-overlay.open .modal-box{transform:scale(1)}
+    
+    .toast{transform:translateY(20px);opacity:0;transition:all .4s ease;position:fixed;bottom:24px;right:24px;z-index:100}
+    .toast.show{transform:translateY(0);opacity:1}
+    
+    /* Pulse dot */
+    @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+    .pulse-dot{width:6px;height:6px;border-radius:50%;background:#D97706;animation:pulse-dot 1.5s infinite}
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-white border-r border-gray-100 flex-shrink-0 hidden lg:flex flex-col">
+    <div class="p-6 border-b border-gray-100">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-forest-700"><span class="font-display font-bold text-white text-sm">V</span></div>
+        <div><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Admin Panel</div></div>
+      </a>
+    </div>
+    
+    <nav class="flex-1 p-4 overflow-y-auto">
+      <div class="sidebar-link"><i class="fas fa-th-large"></i> Dashboard</div>
+      <div class="sidebar-link active"><i class="fas fa-file-prescription"></i> Rx Verification <span class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">3</span></div>
+      <div class="sidebar-link"><i class="fas fa-box-open"></i> All Orders</div>
+      <div class="sidebar-link"><i class="fas fa-pills"></i> Products</div>
+      <div class="sidebar-link"><i class="fas fa-users"></i> Customers</div>
+      
+      <div class="my-4 border-t border-gray-100"></div>
+      <p class="text-[10px] font-bold uppercase tracking-widest px-4 mb-2" style="color:rgba(0,0,0,.25)">Settings</p>
+      <div class="sidebar-link"><i class="fas fa-store"></i> Store Profile</div>
+      <div class="sidebar-link"><i class="fas fa-sliders-h"></i> Preferences</div>
+    </nav>
+
+    <div class="p-4 m-4 rounded-xl" style="background:#F0F7F4">
+      <p class="text-xs font-semibold mb-1" style="color:#153628">Logged in as:</p>
+      <p class="text-sm font-bold" style="color:#1B4332">Dr. Aarti Mehta</p>
+      <p class="text-[10px] mt-0.5" style="color:#1B6B47">Role: Licensed Pharmacist</p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- TOP BAR -->
+    <header class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-6 flex-shrink-0">
+      <div class="flex items-center gap-4">
+        <button class="lg:hidden text-gray-500"><i class="fas fa-bars text-lg"></i></button>
+        <h1 class="text-base font-bold" style="color:#153628">Prescription Verification Queue</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-gray-100 text-gray-400 relative">
+          <i class="far fa-bell text-sm"></i>
+          <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
+        </button>
+        <div class="w-9 h-9 rounded-full bg-forest-700 flex items-center justify-center text-white text-xs font-bold">AM</div>
+      </div>
+    </header>
+
+    <!-- SCROLLABLE CONTENT -->
+    <main class="flex-1 overflow-y-auto p-6">
+      
+      <!-- Stats Row -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-xl p-5 border border-gray-100">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(0,0,0,.4)">Pending Review</span>
+            <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center"><i class="fas fa-clock text-xs" style="color:#D97706"></i></div>
+          </div>
+          <p class="text-2xl font-bold" style="color:#153628">3</p>
+          <p class="text-[11px] mt-1" style="color:rgba(0,0,0,.3)">Requires immediate action</p>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-gray-100">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(0,0,0,.4)">Approved Today</span>
+            <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center"><i class="fas fa-check-circle text-xs" style="color:#166534"></i></div>
+          </div>
+          <p class="text-2xl font-bold" style="color:#153628">12</p>
+          <p class="text-[11px] mt-1" style="color:rgba(0,0,0,.3)">Sent to packing</p>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-gray-100">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(0,0,0,.4)">Rejected Today</span>
+            <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center"><i class="fas fa-times-circle text-xs" style="color:#DC2626"></i></div>
+          </div>
+          <p class="text-2xl font-bold" style="color:#153628">1</p>
+          <p class="text-[11px] mt-1" style="color:rgba(0,0,0,.3)">Refunds initiated</p>
+        </div>
+        <div class="bg-white rounded-xl p-5 border border-gray-100">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(0,0,0,.4)">Low Stock Alerts</span>
+            <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center"><i class="fas fa-exclamation-triangle text-xs" style="color:#2563EB"></i></div>
+          </div>
+          <p class="text-2xl font-bold" style="color:#153628">5</p>
+          <p class="text-[11px] mt-1" style="color:rgba(0,0,0,.3)">Medicines running out</p>
+        </div>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="bg-white rounded-xl border border-gray-100 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-2">
+          <button class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-forest-700 text-white">All (4)</button>
+          <button class="text-xs font-medium px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-50">Pending (3)</button>
+          <button class="text-xs font-medium px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-50">Approved (1)</button>
+        </div>
+        <div class="flex items-center border rounded-lg px-3 h-9 w-full sm:w-auto" style="border-color:rgba(0,0,0,.08)">
+          <i class="fas fa-search text-xs mr-2 text-gray-300"></i>
+          <input type="text" placeholder="Search Order ID or Customer..." class="flex-1 bg-transparent text-sm focus:outline-none">
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Rx Items</th>
+                <th>Prescription</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1: Pending (The one we just placed!) -->
+              <tr id="row-84729">
+                <td class="font-semibold" style="color:#153628">#VW84729</td>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">RS</div>
+                    <div><p class="font-medium" style="color:#153628">Rahul Sharma</p><p class="text-[11px] text-gray-400">Mumbai, 400053</p></div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-xs" style="color:rgba(0,0,0,.7)">Paracetamol 500mg</p>
+                  <p class="text-[10px] text-gray-400">+ 1 General Item</p>
+                </td>
+                <td>
+                  <button onclick="openRxModal('prescription_2025.pdf', 'Rahul Sharma', '#VW84729')" class="text-xs font-semibold flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forest-200 hover:bg-forest-50" style="color:#1B6B47">
+                    <i class="far fa-file-image text-[10px]"></i> View PDF
+                  </button>
+                </td>
+                <td class="text-gray-500 text-xs">Today, 10:45 AM</td>
+                <td><span class="badge badge-pending"><span class="pulse-dot"></span> Pending</span></td>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <button onclick="approveOrder('84729')" class="w-8 h-8 rounded-lg bg-green-50 text-green-700 flex items-center justify-center hover:bg-green-100" title="Approve"><i class="fas fa-check text-xs"></i></button>
+                    <button onclick="rejectOrder('84729')" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100" title="Reject"><i class="fas fa-times text-xs"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 2: Pending -->
+              <tr id="row-84730">
+                <td class="font-semibold" style="color:#153628">#VW84730</td>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">PD</div>
+                    <div><p class="font-medium" style="color:#153628">Priya Desai</p><p class="text-[11px] text-gray-400">Powai, 400076</p></div>
+                  </div>
+                </td>
+                <td><p class="text-xs" style="color:rgba(0,0,0,.7)">Amoxicillin 250mg</p></td>
+                <td>
+                  <button onclick="openRxModal('rx_priya_img.jpg', 'Priya Desai', '#VW84730')" class="text-xs font-semibold flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forest-200 hover:bg-forest-50" style="color:#1B6B47">
+                    <i class="far fa-file-image text-[10px]"></i> View IMG
+                  </button>
+                </td>
+                <td class="text-gray-500 text-xs">Today, 11:20 AM</td>
+                <td><span class="badge badge-pending"><span class="pulse-dot"></span> Pending</span></td>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <button onclick="approveOrder('84730')" class="w-8 h-8 rounded-lg bg-green-50 text-green-700 flex items-center justify-center hover:bg-green-100" title="Approve"><i class="fas fa-check text-xs"></i></button>
+                    <button onclick="rejectOrder('84730')" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-100" title="Reject"><i class="fas fa-times text-xs"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 3: Approved -->
+              <tr id="row-84715">
+                <td class="font-semibold" style="color:#153628">#VW84715</td>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">AK</div>
+                    <div><p class="font-medium" style="color:#153628">Anil Kumar</p><p class="text-[11px] text-gray-400">Andheri, 400058</p></div>
+                  </div>
+                </td>
+                <td><p class="text-xs" style="color:rgba(0,0,0,.7)">Metformin 500mg</p></td>
+                <td><span class="text-xs text-gray-400">rx_anil.pdf</span></td>
+                <td class="text-gray-500 text-xs">Yesterday, 6:15 PM</td>
+                <td><span class="badge badge-approved"><i class="fas fa-check text-[8px]"></i> Approved</span></td>
+                <td><span class="text-xs text-gray-400">Packing</span></td>
+              </tr>
+              
+              <!-- Row 4: Rejected -->
+              <tr id="row-84710">
+                <td class="font-semibold" style="color:#153628">#VW84710</td>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">SM</div>
+                    <div><p class="font-medium" style="color:#153628">Sneha Menon</p><p class="text-[11px] text-gray-400">Thane, 400601</p></div>
+                  </div>
+                </td>
+                <td><p class="text-xs" style="color:rgba(0,0,0,.7)">Omeprazole 20mg</p></td>
+                <td><span class="text-xs text-gray-400">expired_rx.jpg</span></td>
+                <td class="text-gray-500 text-xs">Yesterday, 2:00 PM</td>
+                <td><span class="badge badge-rejected"><i class="fas fa-ban text-[8px]"></i> Rejected</span></td>
+                <td><span class="text-xs text-gray-400">Refunded</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- PRESCRIPTION VIEWER MODAL -->
+  <div id="rx-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(0,0,0,.6);backdrop-filter:blur(4px)">
+    <div class="modal-box bg-white rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-base" style="color:#153628">Verify Prescription</h3>
+          <p class="text-xs mt-0.5" style="color:rgba(0,0,0,.4)">Order: <span id="modal-order-id" class="font-semibold text-gray-600">#VW84729</span> &bull; Customer: <span id="modal-cust-name" class="font-semibold text-gray-600">Rahul Sharma</span></p>
+        </div>
+        <button onclick="closeRxModal()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 text-gray-400"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Image Display Area -->
+      <div class="p-6 bg-gray-50 flex items-center justify-center min-h-[300px]">
+        <div class="bg-white p-4 rounded-xl shadow-sm max-w-md w-full text-center border">
+          <i class="fas fa-file-prescription text-4xl mb-3" style="color:#1B6B47"></i>
+          <p id="modal-file-name" class="text-sm font-semibold mb-1" style="color:#153628">prescription_2025.pdf</p>
+          <p class="text-xs mb-4" style="color:rgba(0,0,0,.4)">Mock representation of the uploaded file</p>
+          <!-- In real app, you would render an <img> or <iframe> here -->
+          <div class="w-full h-40 rounded-lg bg-gray-100 flex items-center justify-center">
+             <img src="https://picsum.photos/seed/sample-prescription-note/400/200.jpg" class="max-w-full max-h-full object-contain rounded" alt="Prescription">
+          </div>
+        </div>
+      </div>
+
+      <!-- Pharmacist Checklist & Actions -->
+      <div class="p-5 border-t border-gray-100">
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+          <div class="flex-1 w-full">
+            <label class="block text-xs font-semibold mb-1.5" style="color:rgba(0,0,0,.5)">Note (Optional)</label>
+            <input type="text" id="pharmacist-note" class="w-full h-10 px-3 border rounded-lg text-sm focus:outline-none focus:border-forest-700" style="border-color:rgba(0,0,0,.1)" placeholder="E.g. Verified for 5 days only">
+          </div>
+          <div class="flex gap-3 w-full sm:w-auto">
+            <button onclick="rejectFromModal()" class="flex-1 sm:flex-initial h-10 px-5 rounded-lg border text-sm font-semibold flex items-center justify-center gap-2 border-red-200 text-red-600 hover:bg-red-50">
+              <i class="fas fa-times text-xs"></i> Reject Rx
+            </button>
+            <button onclick="approveFromModal()" class="flex-1 sm:flex-initial h-10 px-5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 text-white shadow-md" style="background:#1B4332">
+              <i class="fas fa-check text-xs"></i> Approve Rx
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast bg-white rounded-xl shadow-2xl border border-gray-100 px-5 py-4 flex items-center gap-3" style="display:none">
+    <div id="toast-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style="background:#DCFCE7"><i class="fas fa-check text-sm" style="color:#166534"></i></div>
+    <div><div id="toast-title" class="text-sm font-bold" style="color:#153628">Approved!</div><div id="toast-msg" class="text-xs" style="color:rgba(0,0,0,.45)">Order moved to packing.</div></div>
+  </div>
+
+  <script>
+    let currentOrderId = null;
+
+    function openRxModal(fileName, custName, orderId) {
+      currentOrderId = orderId.replace('#', '');
+      document.getElementById('modal-order-id').textContent = orderId;
+      document.getElementById('modal-cust-name').textContent = custName;
+      document.getElementById('modal-file-name').textContent = fileName;
+      document.getElementById('rx-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRxModal() {
+      document.getElementById('rx-modal').classList.remove('open');
+      document.body.style.overflow = '';
+      currentOrderId = null;
+    }
+
+    function approveOrder(id) {
+      updateRowStatus(id, 'approved', 'Approved', 'Sent to packing');
+      showToast('Approved!', `Order #VW${id} verified and sent to packing.`, 'green');
+    }
+
+    function rejectOrder(id) {
+      updateRowStatus(id, 'rejected', 'Rejected', 'Refund initiated');
+      showToast('Rejected', `Order #VW${id} Rx was invalid. Refund initiated.`, 'red');
+    }
+
+    function approveFromModal() {
+      if(currentOrderId) {
+        approveOrder(currentOrderId);
+        closeRxModal();
+      }
+    }
+
+    function rejectFromModal() {
+      if(currentOrderId) {
+        rejectOrder(currentOrderId);
+        closeRxModal();
+      }
+    }
+
+    function updateRowStatus(id, type, label, subtext) {
+      const row = document.getElementById('row-' + id);
+      if(!row) return;
+      
+      // Update Badge
+      const badgeHtml = type === 'approved' 
+        ? `<span class="badge badge-approved"><i class="fas fa-check text-[8px]"></i> ${label}</span>`
+        : `<span class="badge badge-rejected"><i class="fas fa-ban text-[8px]"></i> ${label}</span>`;
+      
+      row.querySelector('td:nth-child(6)').innerHTML = badgeHtml;
+      
+      // Update Actions
+      row.querySelector('td:nth-child(7)').innerHTML = `<span class="text-xs text-gray-400">${subtext}</span>`;
+    }
+
+    function showToast(title, msg, type) {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+
+      if(type === 'red') {
+        icon.style.background = '#FEE2E2';
+        icon.innerHTML = '<i class="fas fa-times text-sm" style="color:#DC2626"></i>';
+      } else {
+        icon.style.background = '#DCFCE7';
+        icon.innerHTML = '<i class="fas fa-check text-sm" style="color:#166534"></i>';
+      }
+
+      toast.style.display = 'flex';
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.style.display = 'none', 400);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
