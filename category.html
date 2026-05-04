@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop Medicines — Vrinda Wellness</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0',
+            gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F',600:'#9A7B24' },
+            sage: { 100:'#E8EDE3',200:'#D4DDD0',300:'#A3B18A',400:'#8A9E6E' },
+            bark: '#3D2C1E',
+            rose: { 50:'#FFF1F2',100:'#FCE7F3',500:'#E11D48' },
+            amber: { 50:'#FFFBEB',100:'#FEF3C7',500:'#D97706' },
+            sky: { 50:'#EFF6FF',100:'#DBEAFE',500:'#2563EB' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:#FDF8F0}
+    ::-webkit-scrollbar-thumb{background:#1B4332;border-radius:3px}
+    .bg-dark-top{background-color:#1B4332}
+    a,button,input{transition:all .3s cubic-bezier(.22,1,.36,1)}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    .search-box:focus-within{box-shadow:0 0 0 3px rgba(27,67,50,.15);border-color:#1B4332}
+    .mega-menu{opacity:0;visibility:hidden;transform:translateY(8px);transition:all .25s cubic-bezier(.22,1,.36,1)}
+    .mega-trigger:hover .mega-menu{opacity:1;visibility:visible;transform:translateY(0)}
+    .nav-icon-btn{transition:all .25s ease}
+    .nav-icon-btn:hover{background:rgba(27,67,50,.08);color:#1B4332}
+    .mobile-drawer{transform:translateX(-100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    .mobile-drawer.open{transform:translateX(0)}
+    .mobile-overlay{opacity:0;visibility:hidden;transition:all .3s ease}
+    .mobile-overlay.open{opacity:1;visibility:visible}
+    .foot-link{transition:all .2s ease}
+    .foot-link:hover{color:#C5A55A;padding-left:4px}
+    .bg-dark-footer{background-color:#153628}
+
+    /* PLP Specifics */
+    .filter-check{appearance:none;width:18px;height:18px;border:1.5px solid rgba(0,0,0,.15);border-radius:4px;cursor:pointer;transition:all .2s ease;position:relative;flex-shrink:0}
+    .filter-check:checked{background:#1B4332;border-color:#1B4332}
+    .filter-check:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:11px;font-weight:bold}
+    
+    .filter-drawer{transform:translateX(-100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    .filter-drawer.open{transform:translateX(0)}
+
+    .prod-card{transition:all .35s cubic-bezier(.22,1,.36,1)}
+    .prod-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08)}
+    .prod-card:hover .prod-img{transform:scale(1.05)}
+    .prod-card:hover .prod-atc{opacity:1;transform:translateY(0)}
+    .prod-img{transition:transform .5s cubic-bezier(.22,1,.36,1)}
+    .prod-atc{opacity:0;transform:translateY(8px);transition:all .3s ease}
+
+    .toast{transform:translateY(20px);opacity:0;transition:all .4s cubic-bezier(.22,1,.36,1)}
+    .toast.show{transform:translateY(0);opacity:1}
+    
+    .sidebar-link{transition:all .2s ease}
+    .sidebar-link:hover{color:#1B4332;padding-left:4px}
+    .sidebar-link.active{color:#1B4332;font-weight:600}
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR & NAVIGATION (Exact same as Home) -->
+  <div class="bg-dark-top text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="flex items-center gap-1.5 text-xs"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
+        <span class="hidden md:flex items-center gap-1.5 text-xs"><i class="fas fa-phone" style="color:#C5A55A;font-size:10px"></i> +91 99673 78987</span>
+      </div>
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="hidden sm:flex items-center gap-1.5 text-xs"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+        <span class="flex items-center gap-1.5 text-xs"><i class="fas fa-clock" style="color:#C5A55A;font-size:10px"></i> 8AM – 10PM</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 border-b border-black/5" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex items-center justify-between h-16 md:h-[72px]">
+        <button id="mob-toggle" class="lg:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color:#1B4332"><i class="fas fa-bars text-lg"></i></button>
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div class="hidden sm:block">
+            <div class="font-display font-semibold text-[15px] leading-tight tracking-tight" style="color:#1B4332">Vrinda</div>
+            <div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color:#2D8A5E">Wellness</div>
+          </div>
+        </a>
+        <div class="hidden md:flex flex-1 max-w-xl mx-8">
+          <div class="search-box flex items-center w-full border rounded-xl px-4 h-11" style="border-color:rgba(0,0,0,.1);background:rgba(253,248,240,.6)">
+            <i class="fas fa-search mr-3 text-sm" style="color:rgba(0,0,0,.25)"></i>
+            <input type="text" placeholder="Search medicines, beauty, snacks..." class="flex-1 bg-transparent text-sm focus:outline-none" style="color:#153628"/>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 md:gap-2">
+          <a href="#" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
+          <a href="#" class="nav-icon-btn flex w-10 h-10 md:w-auto md:h-11 rounded-xl items-center justify-center md:px-4 gap-2 relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
+            <i class="fas fa-shopping-bag text-sm"></i>
+            <span class="hidden md:inline text-xs font-semibold">Cart</span>
+            <span class="absolute -top-1 -right-1 md:top-0 md:right-0 w-[18px] h-[18px] text-white text-[10px] font-bold rounded-full flex items-center justify-center" style="background:#C5A55A">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PLP LAYOUT -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs mb-6" style="color:rgba(0,0,0,.4)">
+      <a href="index.html" class="hover:text-green-800">Home</a>
+      <i class="fas fa-chevron-right text-[8px]"></i>
+      <span style="color:#1B4332;font-weight:600">Medicines</span>
+    </nav>
+
+    <div class="flex gap-8">
+      
+      <!-- SIDEBAR (Desktop) -->
+      <aside class="hidden lg:block w-64 shrink-0">
+        <div class="sticky top-24 bg-white rounded-2xl border border-black/5 p-5 space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold" style="color:#153628">Filters</h3>
+            <button id="clear-filters" class="text-[11px] font-semibold" style="color:#E11D48">Clear All</button>
+          </div>
+
+          <!-- Category Filter -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Type</h4>
+            <div class="space-y-2.5">
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="type" value="Rx"> Prescription (Rx)</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="type" value="OTC"> OTC</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="type" value="Ayur"> Ayurvedic</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="type" value="General"> General Supplements</label>
+            </div>
+          </div>
+
+          <!-- Price Filter -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Price Range</h4>
+            <div class="space-y-2.5">
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="price" value="0-100"> Under ₹100</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="price" value="100-300"> ₹100 - ₹300</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="price" value="300-600"> ₹300 - ₹600</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="price" value="600-9999"> Above ₹600</label>
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Brand</h4>
+            <div class="space-y-2.5">
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="brand" value="Himalaya"> Himalaya</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="brand" value="Dabur"> Dabur</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="brand" value="Cipla"> Cipla</label>
+              <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="brand" value="Micro Labs"> Micro Labs</label>
+            </div>
+          </div>
+          
+          <!-- Discount Filter -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Discount</h4>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check" data-filter="discount" value="10"> 10% or more</label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCTS AREA -->
+      <div class="flex-1 min-w-0">
+        
+        <!-- Top Bar: Sort & Mobile Filter Button -->
+        <div class="flex items-center justify-between bg-white rounded-xl border border-black/5 px-4 py-3 mb-5">
+          <div class="flex items-center gap-3">
+            <button id="mob-filter-btn" class="lg:hidden flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg border" style="border-color:rgba(0,0,0,.1);color:#1B4332">
+              <i class="fas fa-sliders-h text-[10px]"></i> Filters
+            </button>
+            <p class="text-sm" style="color:rgba(0,0,0,.5)">Showing <span id="result-count" class="font-semibold" style="color:#153628">12</span> results</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs hidden sm:inline" style="color:rgba(0,0,0,.4)">Sort by:</span>
+            <select id="sort-select" class="text-sm font-medium bg-transparent focus:outline-none cursor-pointer" style="color:#153628">
+              <option value="relevance">Relevance</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+              <option value="discount">Best Discount</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active Filters Tags -->
+        <div id="active-filters" class="flex flex-wrap gap-2 mb-4" style="display:none"></div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="no-results" class="hidden text-center py-16">
+          <div class="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-search text-2xl" style="color:#B3DBC5"></i>
+          </div>
+          <h3 class="text-lg font-semibold mb-2" style="color:#153628">No medicines found</h3>
+          <p class="text-sm mb-4" style="color:rgba(0,0,0,.4)">Try adjusting your filters or clearing them to see more results.</p>
+          <button onclick="clearAllFilters()" class="text-sm font-semibold px-5 py-2 rounded-lg" style="background:#F0F7F4;color:#1B4332">Clear All Filters</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- MOBILE FILTER DRAWER -->
+  <div id="filter-overlay" class="mobile-overlay fixed inset-0 z-[60] bg-black/40 lg:hidden" style="backdrop-filter:blur(4px)"></div>
+  <div id="filter-drawer" class="filter-drawer fixed top-0 left-0 bottom-0 z-[70] w-[320px] bg-white shadow-2xl lg:hidden overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display font-semibold text-lg" style="color:#153628">Filters</h2>
+        <button id="close-filter" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100" style="color:rgba(0,0,0,.4)"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="space-y-6" id="mobile-filter-content">
+        <!-- Duplicated dynamically for simplicity in vanilla, or hardcode for fast UI -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Type</h4>
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="type" value="Rx"> Prescription (Rx)</label>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="type" value="OTC"> OTC</label>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="type" value="Ayur"> Ayurvedic</label>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="type" value="General"> General</label>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:rgba(0,0,0,.4)">Price</h4>
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="price" value="0-100"> Under ₹100</label>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="price" value="100-300"> ₹100 - ₹300</label>
+            <label class="flex items-center gap-3 cursor-pointer text-sm" style="color:rgba(0,0,0,.7)"><input type="checkbox" class="filter-check mob-filter" data-filter="price" value="300-600"> ₹300 - ₹600</label>
+          </div>
+        </div>
+      </div>
+      <button class="w-full mt-8 text-white text-sm font-semibold py-3.5 rounded-xl" style="background:#1B4332">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- FOOTER (Same as Home) -->
+  <footer class="bg-dark-footer text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 pt-14 pb-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4" style="border-bottom:1px solid rgba(255,255,255,.06); padding-bottom:24px; margin-bottom:24px;">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:#1B6B47;border:1px solid rgba(255,255,255,.1)"><span class="font-display font-bold text-white text-base">V</span></div>
+          <div><div class="font-display font-semibold text-white text-lg leading-tight">Vrinda Wellness</div><div class="text-[10px] font-medium tracking-widest uppercase" style="color:#7FC4A0">Your Trusted Partner</div></div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.5)"><i class="fab fa-instagram text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.5)"><i class="fab fa-facebook-f text-sm"></i></a>
+          <a href="#" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/10" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.5)"><i class="fab fa-whatsapp text-sm"></i></a>
+        </div>
+      </div>
+      <div class="text-center text-xs" style="color:rgba(255,255,255,.25)">© 2025 Vrinda Wellness. All rights reserved. | <a href="#" class="hover:text-white/50">Privacy</a> | <a href="#" class="hover:text-white/50">Terms</a></div>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast fixed bottom-6 left-6 z-50 bg-white rounded-2xl shadow-xl border border-black/5 p-4 flex items-center gap-3 max-w-sm" style="display:none">
+    <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:#DCFCE7"><i class="fas fa-check text-sm" style="color:#166534"></i></div>
+    <div><div id="toast-title" class="text-sm font-semibold" style="color:#153628">Success!</div><div id="toast-msg" class="text-xs" style="color:rgba(0,0,0,.45)">Done.</div></div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Mock Data
+    const products = [
+      { id:1, name:'Paracetamol 500mg', brand:'Cipla', price:35, mrp:45, rating:4.5, reviews:2340, type:'Rx', img:'med-paracetamol' },
+      { id:2, name:'Dolo 650 Tablet', brand:'Micro Labs', price:30, mrp:38, rating:4.8, reviews:12400, type:'OTC', img:'med-dolo' },
+      { id:3, name:'Ashwagandha Tabs 60s', brand:'Himalaya', price:185, mrp:230, rating:4.2, reviews:1200, type:'Ayur', img:'med-ashwa' },
+      { id:4, name:'Vitamin D3 60000 IU', brand:'Cadila', price:145, mrp:180, rating:4.7, reviews:6700, type:'General', img:'med-vitd' },
+      { id:5, name:'Amoxicillin 250mg', brand:'Cipla', price:78, mrp:110, rating:4.3, reviews:890, type:'Rx', img:'med-amoxicillin' },
+      { id:6, name:'Chyawanprash 500g', brand:'Dabur', price:220, mrp:275, rating:4.6, reviews:4500, type:'Ayur', img:'med-chyawan' },
+      { id:7, name:'Crocin Advance 500mg', brand:'Micro Labs', price:25, mrp:32, rating:4.7, reviews:8900, type:'OTC', img:'med-crocin' },
+      { id:8, name:'Omega 3 Fish Oil', brand:'HealthKart', price:499, mrp:699, rating:4.4, reviews:1200, type:'General', img:'med-omega' },
+      { id:9, name:'Metformin 500mg', brand:'USV', price:42, mrp:55, rating:4.6, reviews:3200, type:'Rx', img:'med-metformin' },
+      { id:10, name:'Triphala Capsules 60s', brand:'Himalaya', price:195, mrp:245, rating:4.4, reviews:890, type:'Ayur', img:'med-triphala' },
+      { id:11, name:'Omeprazole 20mg', brand:'Cipla', price:65, mrp:85, rating:4.4, reviews:1560, type:'Rx', img:'med-omeprazole' },
+      { id:12, name:'Calcium + Vitamin D3', brand:'Shelcal', price:210, mrp:260, rating:4.6, reviews:5600, type:'General', img:'med-calcium' },
+    ];
+
+    let cartCount = 0;
+    const grid = document.getElementById('product-grid');
+    const noResults = document.getElementById('no-results');
+    const resultCount = document.getElementById('result-count');
+    const activeFiltersDiv = document.getElementById('active-filters');
+
+    function getBadge(type) {
+      if(type === 'Rx') return `<span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background:#DC2626">Rx</span>`;
+      if(type === 'OTC') return `<span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background:#1B4332">OTC</span>`;
+      if(type === 'Ayur') return `<span class="absolute top-2.5 left-2.5 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md" style="background:#1B4332">Ayur</span>`;
+      return '';
+    }
+
+    function renderStars(rating) {
+      let s = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) s += '<i class="fas fa-star text-[9px]" style="color:#C5A55A"></i>';
+        else if (i - rating < 1) s += '<i class="fas fa-star-half-alt text-[9px]" style="color:#C5A55A"></i>';
+        else s += '<i class="far fa-star text-[9px]" style="color:#C5A55A"></i>';
+      }
+      return s;
+    }
+
+    function renderProducts(list) {
+      grid.innerHTML = '';
+      if(list.length === 0) {
+        grid.classList.add('hidden');
+        noResults.classList.remove('hidden');
+        resultCount.textContent = '0';
+        return;
+      }
+      grid.classList.remove('hidden');
+      noResults.classList.add('hidden');
+      resultCount.textContent = list.length;
+
+      list.forEach(p => {
+        const disc = Math.round((1 - p.price/p.mrp) * 100);
+        const card = document.createElement('div');
+        card.className = 'prod-card bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer';
+        card.innerHTML = `
+          <div class="relative aspect-square overflow-hidden" style="background:rgba(253,248,240,.5)">
+            <img src="https://picsum.photos/seed/${p.img}/400/400.jpg" alt="${p.name}" class="prod-img w-full h-full object-cover" loading="lazy"/>
+            ${getBadge(p.type)}
+            <button class="prod-atc absolute bottom-2.5 left-2.5 right-2.5 text-white text-xs font-semibold py-2.5 rounded-xl text-center" style="background:#1B4332">Add to Cart</button>
+          </div>
+          <div class="p-3.5">
+            <p class="text-[10px] font-medium uppercase tracking-wider mb-1" style="color:rgba(0,0,0,.35)">${p.brand}</p>
+            <h3 class="text-sm font-semibold leading-snug mb-2 line-clamp-2" style="color:#153628">${p.name}</h3>
+            <div class="flex items-center gap-2 mb-2">
+              <div class="flex items-center gap-0.5">${renderStars(p.rating)}</div>
+              <span class="text-[10px]" style="color:rgba(0,0,0,.3)">(${p.reviews >= 1000 ? (p.reviews/1000).toFixed(1).replace('.0','')+'k' : p.reviews})</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div><span class="text-base font-bold" style="color:#1B4332">₹${p.price}</span><span class="text-xs line-through ml-1" style="color:rgba(0,0,0,.3)">₹${p.mrp}</span></div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color:#166534;background:#DCFCE7">${disc}% off</span>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+
+      // Wire ATC
+      grid.querySelectorAll('.prod-atc').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          cartCount++;
+          document.querySelector('.fa-shopping-bag').nextElementSibling.textContent = cartCount; // simple cart update
+          showToast('Added to Cart', btn.closest('.prod-card').querySelector('h3').textContent);
+        });
+      });
+    }
+
+    // Filter & Sort Logic
+    function applyFiltersAndSort() {
+      const checks = document.querySelectorAll('.filter-check:checked');
+      const filters = { type: [], price: [], brand: [], discount: [] };
+      
+      checks.forEach(c => {
+        const key = c.dataset.filter;
+        if(filters[key]) filters[key].push(c.value);
+      });
+
+      let filtered = [...products];
+
+      if(filters.type.length > 0) filtered = filtered.filter(p => filters.type.includes(p.type));
+      
+      if(filters.price.length > 0) {
+        filtered = filtered.filter(p => {
+          return filters.price.some(range => {
+            const [min, max] = range.split('-').map(Number);
+            return p.price >= min && p.price <= max;
+          });
+        });
+      }
+
+      if(filters.brand.length > 0) filtered = filtered.filter(p => filters.brand.includes(p.brand));
+      
+      if(filters.discount.length > 0) filtered = filtered.filter(p => Math.round((1 - p.price/p.mrp) * 100) >= parseInt(filters.discount[0]));
+
+      // Sort
+      const sortVal = document.getElementById('sort-select').value;
+      if(sortVal === 'price-low') filtered.sort((a,b) => a.price - b.price);
+      if(sortVal === 'price-high') filtered.sort((a,b) => b.price - a.price);
+      if(sortVal === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+      if(sortVal === 'discount') filtered.sort((a,b) => (1 - a.price/a.mrp) - (1 - b.price/b.mrp));
+
+      renderProducts(filtered);
+      renderActiveTags(filters);
+    }
+
+    function renderActiveTags(filters) {
+      activeFiltersDiv.innerHTML = '';
+      let hasFilter = false;
+      
+      const labels = { Rx: 'Prescription', OTC: 'OTC', Ayur: 'Ayurvedic', General: 'General' };
+      
+      for (let key in filters) {
+        filters[key].forEach(val => {
+          hasFilter = true;
+          const tag = document.createElement('button');
+          tag.className = 'flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-white border';
+          tag.style.borderColor = 'rgba(0,0,0,.1)';
+          tag.style.color = '#153628';
+          tag.innerHTML = `${labels[val] || val} <i class="fas fa-times text-[8px] opacity-50"></i>`;
+          
+          // Remove specific filter on click
+          tag.addEventListener('click', () => {
+            document.querySelectorAll(`.filter-check[data-filter="${key}"][value="${val}"]`).forEach(c => c.checked = false);
+            applyFiltersAndSort();
+          });
+          activeFiltersDiv.appendChild(tag);
+        });
+      }
+      activeFiltersDiv.style.display = hasFilter ? 'flex' : 'none';
+    }
+
+    function clearAllFilters() {
+      document.querySelectorAll('.filter-check').forEach(c => c.checked = false);
+      applyFiltersAndSort();
+    }
+
+    // Event Listeners
+    document.querySelectorAll('.filter-check').forEach(c => c.addEventListener('change', applyFiltersAndSort));
+    document.getElementById('sort-select').addEventListener('change', applyFiltersAndSort);
+    document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+
+    // Mobile Filter Drawer
+    const filterOverlay = document.getElementById('filter-overlay');
+    const filterDrawer = document.getElementById('filter-drawer');
+    document.getElementById('mob-filter-btn').addEventListener('click', () => {
+      filterDrawer.classList.add('open');
+      filterOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    function closeFilterDrawer() {
+      filterDrawer.classList.remove('open');
+      filterOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      applyFiltersAndSort(); // Apply on close
+    }
+    
+    document.getElementById('close-filter').addEventListener('click', closeFilterDrawer);
+    filterOverlay.addEventListener('click', closeFilterDrawer);
+    filterDrawer.querySelector('button').addEventListener('click', closeFilterDrawer);
+
+    // Toast
+    const toast = document.getElementById('toast');
+    let toastT;
+    function showToast(title, msg) {
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg.substring(0,40) + '...';
+      toast.style.display = 'flex';
+      clearTimeout(toastT);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      toastT = setTimeout(() => { toast.classList.remove('show'); setTimeout(()=>toast.style.display='none',400); }, 3000);
+    }
+
+    // Init
+    renderProducts(products);
+
+  </script>
+</body>
+</html>
