@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0', gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #FDF8F0; }
+    .nav-icon-btn{transition:all .25s ease}.nav-icon-btn:hover{background:rgba(27,67,50,.08);color:#1B4332}
+    .order-card { transition: all .3s ease; }
+    .order-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.05); }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 border-b border-black/5 bg-white/92" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      <a href="home.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
+      </a>
+      <a href="cart.html" class="nav-icon-btn flex w-10 h-10 rounded-xl items-center justify-center relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
+        <i class="fas fa-shopping-bag text-sm"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto px-4 md:px-6 py-10">
+
+    <!-- LOGGED IN VIEW -->
+    <div id="logged-in-view" class="hidden">
+      <div class="flex items-center gap-5 mb-10">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-md" style="background:linear-gradient(135deg, #1B4332, #153628)">
+          <span class="font-display font-bold text-white text-2xl" id="user-initial">P</span>
+        </div>
+        <div>
+          <h1 class="font-display font-semibold text-2xl" style="color:#153628" id="user-name">Pooja Gaud</h1>
+          <p class="text-sm" style="color:rgba(0,0,0,.4)" id="user-email">pooja@example.com</p>
+        </div>
+        <button onclick="logoutUser()" class="ml-auto text-xs font-semibold px-4 py-2 rounded-lg border hover:bg-red-50 transition" style="border-color:#FEE2E2;color:#DC2626">
+          <i class="fas fa-sign-out-alt mr-1"></i> Logout
+        </button>
+      </div>
+
+      <!-- Mock Order History -->
+      <h2 class="font-display font-semibold text-lg mb-4" style="color:#153628">Recent Orders</h2>
+      <div class="space-y-4">
+        <div class="order-card bg-white rounded-2xl border border-black/5 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider" style="color:rgba(0,0,0,.3)">Order #VW84729</span>
+            <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#DCFCE7;color:#166534">Delivered</span>
+          </div>
+          <div class="flex items-center gap-4 mb-3">
+            <div class="w-14 h-14 rounded-lg overflow-hidden bg-forest-50"><img src="https://picsum.photos/seed/snack-almonds/100/100.jpg" class="w-full h-full object-cover"></div>
+            <div class="flex-1"><p class="text-sm font-semibold" style="color:#153628">California Almonds + 1 more</p><p class="text-xs" style="color:rgba(0,0,0,.3)">Placed on Jan 15, 2025</p></div>
+            <span class="text-sm font-bold" style="color:#1B4332">₹434.00</span>
+          </div>
+        </div>
+
+        <div class="order-card bg-white rounded-2xl border border-black/5 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider" style="color:rgba(0,0,0,.3)">Order #VW83210</span>
+            <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:#FEF3C7;color:#92400E">Processing</span>
+          </div>
+          <div class="flex items-center gap-4 mb-3">
+            <div class="w-14 h-14 rounded-lg overflow-hidden bg-forest-50"><img src="https://picsum.photos/seed/beauty-cleanser/100/100.jpg" class="w-full h-full object-cover"></div>
+            <div class="flex-1"><p class="text-sm font-semibold" style="color:#153628">Cetaphil Cleanser</p><p class="text-xs" style="color:rgba(0,0,0,.3)">Placed on Jan 12, 2025</p></div>
+            <span class="text-sm font-bold" style="color:#1B4332">₹420.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGGED OUT VIEW -->
+    <div id="logged-out-view" class="hidden text-center py-20">
+      <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background:#F0F7F4">
+        <i class="fas fa-user-lock text-2xl" style="color:#B3DBC5"></i>
+      </div>
+      <h2 class="font-display font-semibold text-2xl mb-3" style="color:#153628">Please Log In</h2>
+      <p class="text-sm mb-8 max-w-sm mx-auto" style="color:rgba(0,0,0,.4)">You need to be logged in to view your profile and order history.</p>
+      <a href="login.html" class="inline-flex items-center gap-2 text-sm font-semibold px-8 py-3.5 rounded-xl text-white shadow-lg" style="background:#1B4332">
+        <i class="fas fa-sign-in-alt text-xs"></i> Sign In
+      </a>
+    </div>
+
+  </main>
+
+  <script>
+    try {
+      const token = localStorage.getItem('vrindaToken');
+      const userStr = localStorage.getItem('vrindaUser');
+      let user = null;
+
+      // Safely parse the user data
+      if (userStr && userStr !== 'undefined' && userStr !== 'null') {
+        try {
+          user = JSON.parse(userStr);
+        } catch (e) {
+          user = null; // If it's corrupted data, just treat as logged out
+        }
+      }
+
+      if (token && user && user.name) {
+        // User is logged in
+        document.getElementById('logged-in-view').classList.remove('hidden');
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
+      } else {
+        // User is a guest
+        document.getElementById('logged-out-view').classList.remove('hidden');
+      }
+    } catch (error) {
+      // If anything fails, just show the logged-out view
+      document.getElementById('logged-out-view').classList.remove('hidden');
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('vrindaToken');
+      localStorage.removeItem('vrindaUser');
+      window.location.href = 'home.html';
+    }
+
+    // 💡 QUICK MOCK LOGIN FOR OFFICE TESTING
+    function mockLoginForTest() {
+      const mockData = { 
+        name: 'Pooja Gaud', 
+        email: 'pooja@vrinda.com' 
+      };
+      localStorage.setItem('vrindaToken', 'mock_office_token_123');
+      localStorage.setItem('vrindaUser', JSON.stringify(mockData));
+      // Reload the page to see the logged-in view
+      window.location.reload(); 
+    }
+  </script>
+</body>
+</html>
