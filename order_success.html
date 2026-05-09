@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmed — Vrinda Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwindcss.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50:'#F0F7F4',100:'#D9EDE2',200:'#B3DBC5',300:'#7FC4A0',400:'#4BA87A',500:'#2D8A5E',600:'#1B6B47',700:'#1B4332',800:'#153628',900:'#0E2A1E' },
+            cream: '#FDF8F0', gold: { 300:'#DDD0AA',400:'#C5A55A',500:'#B8952F' },
+          },
+          fontFamily: { display:['Playfair Display','Georgia','serif'], body:['Inter','system-ui','sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #FDF8F0; }
+    .bg-dots { background-image: radial-gradient(circle at 1px 1px, rgba(27,67,50,.04) 1px, transparent 0); background-size: 32px 32px; }
+    
+    /* Success Checkmark Animation */
+    @keyframes scaleIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes drawCircle { 0% { stroke-dashoffset: 300; } 100% { stroke-dashoffset: 0; } }
+    @keyframes drawCheck { 0% { stroke-dashoffset: 60; } 100% { stroke-dashoffset: 0; } }
+    
+    .success-circle { stroke-dasharray: 300; animation: drawCircle 1s ease forwards; }
+    .success-check { stroke-dasharray: 60; animation: drawCheck 0.5s 0.6s ease forwards; stroke-dashoffset: 60; }
+    .success-container { animation: scaleIn 0.5s ease forwards; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-dots">
+
+  <!-- HEADER -->
+  <header class="border-b border-black/5 bg-white/80" style="backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      <a href="home.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
+      </a>
+      <a href="profile.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 flex items-center justify-center px-4 py-16">
+    <div class="text-center max-w-md mx-auto">
+
+      <!-- Animated SVG Checkmark -->
+      <div class="success-container w-24 h-24 mx-auto mb-8">
+        <svg viewBox="0 0 100 100" class="w-full h-full">
+          <circle class="success-circle" cx="50" cy="50" r="45" fill="none" stroke="#DCFCE7" stroke-width="8" />
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#166534" stroke-width="8" />
+          <path class="success-check" d="M30 50 L45 65 L70 35" fill="none" stroke="#166534" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <h1 class="font-display font-semibold text-3xl tracking-tight mb-2" style="color:#153628">Order Confirmed!</h1>
+      <p class="text-sm mb-6" style="color:rgba(0,0,0,.5)">Thank you for choosing Vrinda Wellness. Your order has been placed successfully.</p>
+
+      <!-- Order Details Card -->
+      <div class="bg-white rounded-2xl border border-black/5 p-6 text-left mb-8">
+        <div class="flex justify-between items-center mb-4 pb-4" style="border-bottom:1px solid rgba(0,0,0,.05)">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color:rgba(0,0,0,.3)">Order ID</span>
+          <span class="text-sm font-bold" style="color:#1B4332" id="order-id">#VW84729</span>
+        </div>
+        <div class="space-y-3 text-sm">
+          <div class="flex justify-between">
+            <span style="color:rgba(0,0,0,.5)">Estimated Delivery</span>
+            <span class="font-semibold" style="color:#153628">Today, 8PM - 10PM</span>
+          </div>
+          <div class="flex justify-between">
+            <span style="color:rgba(0,0,0,.5)">Payment Method</span>
+            <span class="font-semibold" style="color:#153628">UPI</span>
+          </div>
+          <div class="flex justify-between">
+            <span style="color:rgba(0,0,0,.5)">Pharmacist Verification</span>
+            <span class="font-semibold flex items-center gap-1" style="color:#166534"><i class="fas fa-check-circle text-xs"></i> Approved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="space-y-3">
+        <a href="home.html" class="w-full py-3.5 rounded-xl text-sm font-semibold text-white shadow-lg transition hover:opacity-90 flex items-center justify-center gap-2" style="background:#1B4332">
+          <i class="fas fa-home text-xs"></i> Continue Shopping
+        </a>
+        <a href="profile.html" class="w-full py-3.5 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition hover:bg-gray-50" style="border-color:rgba(0,0,0,.1);color:#1B4332;background:white">
+          <i class="fas fa-box text-xs"></i> View My Orders
+        </a>
+      </div>
+      
+    </div>
+  </main>
+</body>
+</html>
