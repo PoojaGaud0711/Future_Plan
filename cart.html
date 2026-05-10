@@ -24,10 +24,21 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:#FDF8F0}
+    ::-webkit-scrollbar-thumb{background:#1B4332;border-radius:3px}
     .bg-dark-top{background-color:#1B4332}
     .bg-dark-footer{background-color:#153628}
     a,button{transition:all .3s cubic-bezier(.22,1,.36,1)}
     
+    .nav-icon-btn{transition:all .25s ease}
+    .nav-icon-btn:hover{background:rgba(27,67,50,.08);color:#1B4332}
+
+    .mobile-drawer{transform:translateX(-100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    .mobile-drawer.open{transform:translateX(0)}
+    .mobile-overlay{opacity:0;visibility:hidden;transition:all .3s ease}
+    .mobile-overlay.open{opacity:1;visibility:visible}
+
     /* Step Indicator */
     .step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid rgba(0,0,0,.1);color:rgba(0,0,0,.3);background:white;transition:all .3s ease}
     .step-dot.active{background:#1B4332;color:white;border-color:#1B4332}
@@ -61,22 +72,71 @@
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- TOP BAR -->
   <div class="bg-dark-top text-white">
     <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
-      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
-      <span class="flex items-center gap-1.5 text-xs" style="color:rgba(255,255,255,.85)"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="flex items-center gap-1.5 text-xs"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
+        <span class="hidden md:flex items-center gap-1.5 text-xs"><i class="fas fa-phone" style="color:#C5A55A;font-size:10px"></i> +91 99673 78987</span>
+      </div>
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="hidden sm:flex items-center gap-1.5 text-xs"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+        <a href="order_tracking.html" class="flex items-center gap-1.5 text-xs hover:text-white"><i class="fas fa-truck" style="color:#C5A55A;font-size:10px"></i> Track Order</a>
+      </div>
     </div>
   </div>
-  <header class="sticky top-0 z-40 border-b border-black/5 bg-white/92" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
-      <a href="home.html" class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-forest-700"><span class="font-display font-bold text-white text-sm">V</span></div>
-        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
-      </a>
-      <a href="home.html" class="flex items-center gap-2 text-sm font-medium" style="color:rgba(0,0,0,.5)"><i class="fas fa-arrow-left text-xs"></i> Continue Shopping</a>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-40 border-b border-black/5" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex items-center justify-between h-16">
+        <button id="mob-toggle" class="lg:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color:#1B4332"><i class="fas fa-bars text-lg"></i></button>
+        <a href="home.html" class="flex items-center gap-2.5 shrink-0">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div class="hidden sm:block">
+            <div class="font-display font-semibold text-[15px] leading-tight tracking-tight" style="color:#1B4332">Vrinda</div>
+            <div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color:#2D8A5E">Wellness</div>
+          </div>
+        </a>
+        <div class="flex items-center gap-1 md:gap-2">
+          <a href="profile.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
+          <a href="user_wishlist.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="far fa-heart text-sm"></i></a>
+          <a href="view_cart.html" class="nav-icon-btn flex w-10 h-10 md:w-auto md:h-11 rounded-xl items-center justify-center md:px-4 gap-2 relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
+            <i class="fas fa-shopping-bag text-sm"></i>
+            <span class="hidden md:inline text-xs font-semibold">Cart</span>
+            <span id="cart-count" class="absolute -top-1 -right-1 md:top-0 md:right-0 w-[18px] h-[18px] text-white text-[10px] font-bold rounded-full flex items-center justify-center" style="background:#C5A55A">0</span>
+          </a>
+        </div>
+      </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mob-overlay" class="mobile-overlay fixed inset-0 z-[60] bg-black/40 lg:hidden"></div>
+  <div id="mob-drawer" class="mobile-drawer fixed top-0 left-0 bottom-0 z-[70] w-[300px] bg-white shadow-2xl lg:hidden overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-8">
+        <a href="home.html" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div><div class="font-display font-semibold text-[15px] leading-tight" style="color:#1B4332">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color:#2D8A5E">Wellness</div></div>
+        </a>
+        <button id="mob-close" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100" style="color:rgba(0,0,0,.4)"><i class="fas fa-times"></i></button>
+      </div>
+      <nav class="space-y-1">
+        <a href="home.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium" style="background:#F0F7F4;color:#1B4332"><i class="fas fa-home text-xs w-5 text-center"></i> Home</a>
+        <a href="category.html?zone=medicines" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-pills text-xs w-5 text-center"></i> Medicines</a>
+        <a href="category.html?zone=beauty" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-spa text-xs w-5 text-center"></i> Beauty</a>
+        <a href="category.html?zone=snacks" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-apple-alt text-xs w-5 text-center"></i> Snacks</a>
+        <a href="category.html?zone=needfuls" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-box-open text-xs w-5 text-center"></i> Needfuls</a>
+        <div class="my-3" style="border-top:1px solid rgba(0,0,0,.06)"></div>
+        <a href="prescription_page.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-file-prescription text-xs w-5 text-center"></i> Upload Prescription</a>
+        <a href="user_wishlist.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="far fa-heart text-xs w-5 text-center"></i> Wishlist</a>
+        <a href="profile.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-user text-xs w-5 text-center"></i> My Profile</a>
+        <a href="order_tracking.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-truck text-xs w-5 text-center"></i> Track Order</a>
+        <a href="login.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold" style="color:#1B4332"><i class="fas fa-sign-in-alt text-xs w-5 text-center"></i> Login / Sign Up</a>
+      </nav>
+    </div>
+  </div>
 
   <main class="max-w-5xl mx-auto px-4 md:px-6 py-8">
     
@@ -212,9 +272,7 @@
         <div class="lg:col-span-1">
           <div class="bg-white rounded-2xl border border-black/5 p-6 sticky top-24">
             <h3 class="text-sm font-bold uppercase tracking-wider mb-4" style="color:#153628">Order Summary</h3>
-            <div class="space-y-3 mb-4 pb-4" id="checkout-items-list" style="border-bottom:1px solid rgba(0,0,0,.05)">
-              <!-- Rendered by JS -->
-            </div>
+            <div class="space-y-3 mb-4 pb-4" id="checkout-items-list" style="border-bottom:1px solid rgba(0,0,0,.05)"></div>
             
             <div class="space-y-2 text-sm mb-4" style="color:rgba(0,0,0,.6)">
               <div class="flex justify-between"><span>Subtotal</span><span class="font-semibold" style="color:#153628" id="s2-subtotal">₹0.00</span></div>
@@ -243,8 +301,22 @@
 
   <!-- FOOTER -->
   <footer class="bg-dark-footer text-white mt-12">
-    <div class="max-w-5xl mx-auto px-4 md:px-6 py-6 text-center text-xs" style="color:rgba(255,255,255,.25)">
-      © 2025 Vrinda Wellness. All rights reserved. | Privacy Policy | Terms
+    <div class="max-w-7xl mx-auto px-4 md:px-6 pt-10 pb-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <a href="home.html" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B6B47;border:1px solid rgba(255,255,255,.1)"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div><div class="font-display font-semibold text-white leading-tight">Vrinda Wellness</div><div class="text-[10px] font-medium tracking-widest uppercase" style="color:#7FC4A0">Your Trusted Partner</div></div>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="home.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Home</a>
+          <a href="category.html?zone=medicines" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Medicines</a>
+          <a href="prescription_page.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Upload Rx</a>
+          <a href="profile.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">My Account</a>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 text-center text-[11px]" style="border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.25)">
+        © 2025 Vrinda Wellness. All rights reserved.
+      </div>
     </div>
   </footer>
 
@@ -255,9 +327,16 @@
   </div>
 
   <script>
+    // ── Cart Data ──
     let cart = JSON.parse(localStorage.getItem('vrindaCart') || '[]');
     const cartContainer = document.getElementById('cart-items-container');
+    const headerCartCount = document.getElementById('cart-count');
     let hasRx = false;
+
+    // Sync header cart count
+    function updateHeaderCart() {
+      headerCartCount.textContent = cart.length;
+    }
 
     function groupCartItems() {
       const grouped = {};
@@ -273,9 +352,16 @@
 
     function renderCartView() {
       cartContainer.innerHTML = '';
+      updateHeaderCart();
       
       if (cart.length === 0) {
-        cartContainer.innerHTML = `<div class="text-center py-16 col-span-2"><div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#F0F7F4"><i class="fas fa-shopping-bag text-3xl" style="color:#B3DBC5"></i></div><h2 class="font-display font-semibold text-2xl mb-3" style="color:#153628">Your cart is empty</h2><p class="text-sm mb-6" style="color:rgba(0,0,0,.4)">Looks like you haven't added anything yet.</p><a href="home.html" class="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl text-white" style="background:#1B4332">Shop Medicines</a></div>`;
+        cartContainer.innerHTML = `
+          <div class="text-center py-16 col-span-2">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#F0F7F4"><i class="fas fa-shopping-bag text-3xl" style="color:#B3DBC5"></i></div>
+            <h2 class="font-display font-semibold text-2xl mb-3" style="color:#153628">Your cart is empty</h2>
+            <p class="text-sm mb-6" style="color:rgba(0,0,0,.4)">Looks like you haven't added anything yet.</p>
+            <a href="home.html" class="inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 rounded-xl text-white" style="background:#1B4332">Shop Medicines</a>
+          </div>`;
         document.getElementById('s1-subtotal').textContent = '₹0.00';
         document.getElementById('s1-total').textContent = '₹0.00';
         return;
@@ -292,7 +378,6 @@
         const itemTotal = priceNum * item.qty;
         subtotal += itemTotal;
 
-        // Mock Rx detection
         const isRx = item.name.toLowerCase().includes('paracetamol') || item.name.toLowerCase().includes('amoxicillin') || item.name.toLowerCase().includes('metformin');
         if(isRx) hasRx = true;
 
@@ -365,7 +450,6 @@
       document.getElementById('s2-delivery').textContent = deliveryFee === 0 ? 'FREE' : '₹40.00';
       document.getElementById('s2-total').textContent = `₹${total}.00`;
 
-      // Show Rx disclaimer if needed
       const rxDisc = document.getElementById('rx-disclaimer');
       if(hasRx) rxDisc.classList.remove('hidden'), rxDisc.classList.add('flex');
       else rxDisc.classList.add('hidden'), rxDisc.classList.remove('flex');
@@ -412,17 +496,17 @@
       el.classList.add('selected');
     }
 
-    // Place Order Mock
+    // Place Order
     function placeOrder() {
       const btn = event.target.closest('button');
       btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> Processing...';
       btn.disabled = true;
       
       setTimeout(() => {
-        localStorage.removeItem('vrindaCart'); // Clear cart
+        localStorage.removeItem('vrindaCart');
         
         document.getElementById('toast-title').textContent = "Order Placed Successfully!";
-        document.getElementById('toast-msg').textContent = "Order ID: #VW" + Math.floor(Math.random() * 90000 + 10000) + ". Preparing for dispatch.";
+        document.getElementById('toast-msg').textContent = "Order ID: #VW" + Math.floor(Math.random() * 90000 + 10000);
         const toast = document.getElementById('toast');
         toast.style.display = 'flex';
         requestAnimationFrame(() => toast.classList.add('show'));
@@ -430,9 +514,22 @@
         btn.innerHTML = '<i class="fas fa-check text-xs"></i> Placed';
         btn.style.background = '#166534';
 
-        setTimeout(() => window.location.href = 'home.html', 3000);
+        // Redirect to the actual success page!
+        setTimeout(() => window.location.href = 'order_success.html', 1500);
       }, 1500);
     }
+
+    // Mobile Drawer
+    const mobToggle = document.getElementById('mob-toggle');
+    const mobClose = document.getElementById('mob-close');
+    const mobDrawer = document.getElementById('mob-drawer');
+    const mobOverlay = document.getElementById('mob-overlay');
+    function openDrawer() { mobDrawer.classList.add('open'); mobOverlay.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeDrawer() { mobDrawer.classList.remove('open'); mobOverlay.classList.remove('open'); document.body.style.overflow=''; }
+    mobToggle.addEventListener('click', openDrawer);
+    mobClose.addEventListener('click', closeDrawer);
+    mobOverlay.addEventListener('click', closeDrawer);
+    document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', closeDrawer));
 
     // Init
     renderCartView();
