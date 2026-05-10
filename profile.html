@@ -21,26 +21,101 @@
     }
   </script>
   <style>
-    body { font-family: 'Inter', system-ui, sans-serif; background: #FDF8F0; }
-    .nav-icon-btn{transition:all .25s ease}.nav-icon-btn:hover{background:rgba(27,67,50,.08);color:#1B4332}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:#FDF8F0;color:#1a1a1a}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:#FDF8F0}
+    ::-webkit-scrollbar-thumb{background:#1B4332;border-radius:3px}
+    .bg-dark-top{background-color:#1B4332}
+    .bg-dark-footer{background-color:#153628}
+    a,button{transition:all .3s cubic-bezier(.22,1,.36,1)}
+    .nav-icon-btn{transition:all .25s ease}
+    .nav-icon-btn:hover{background:rgba(27,67,50,.08);color:#1B4332}
+    .mobile-drawer{transform:translateX(-100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    .mobile-drawer.open{transform:translateX(0)}
+    .mobile-overlay{opacity:0;visibility:hidden;transition:all .3s ease}
+    .mobile-overlay.open{opacity:1;visibility:visible}
     .order-card { transition: all .3s ease; }
     .order-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.05); }
   </style>
 </head>
 <body class="min-h-screen">
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 border-b border-black/5 bg-white/92" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px)">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-16">
-      <a href="home.html" class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
-        <div class="hidden sm:block"><div class="font-display font-semibold text-[15px] text-forest-700 leading-tight">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase text-forest-500 -mt-0.5">Wellness</div></div>
-      </a>
-      <a href="cart.html" class="nav-icon-btn flex w-10 h-10 rounded-xl items-center justify-center relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
-        <i class="fas fa-shopping-bag text-sm"></i>
-      </a>
+  <!-- TOP BAR -->
+  <div class="bg-dark-top text-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-9">
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="flex items-center gap-1.5 text-xs"><i class="fas fa-map-marker-alt" style="color:#C5A55A;font-size:10px"></i> Delivery in Mumbai</span>
+        <span class="hidden md:flex items-center gap-1.5 text-xs"><i class="fas fa-phone" style="color:#C5A55A;font-size:10px"></i> +91 99673 78987</span>
+      </div>
+      <div class="flex items-center gap-4" style="color:rgba(255,255,255,.85)">
+        <span class="hidden sm:flex items-center gap-1.5 text-xs"><i class="fas fa-shield-alt" style="color:#C5A55A;font-size:10px"></i> Licensed Pharmacy</span>
+        <a href="order_tracking.html" class="flex items-center gap-1.5 text-xs hover:text-white"><i class="fas fa-truck" style="color:#C5A55A;font-size:10px"></i> Track Order</a>
+        <span class="flex items-center gap-1.5 text-xs"><i class="fas fa-clock" style="color:#C5A55A;font-size:10px"></i> 8AM – 10PM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="sticky top-0 z-50 border-b border-black/5" style="background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)">
+    <div class="max-w-7xl mx-auto px-4 md:px-6">
+      <div class="flex items-center justify-between h-16 md:h-[72px]">
+        <button id="mob-toggle" class="lg:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color:#1B4332"><i class="fas fa-bars text-lg"></i></button>
+        <a href="home.html" class="flex items-center gap-2.5 shrink-0">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div class="hidden sm:block">
+            <div class="font-display font-semibold text-[15px] leading-tight tracking-tight" style="color:#1B4332">Vrinda</div>
+            <div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color:#2D8A5E">Wellness</div>
+          </div>
+        </a>
+        <div class="hidden md:flex flex-1 max-w-xl mx-8">
+          <div class="search-box flex items-center w-full border rounded-xl px-4 h-11" style="border-color:rgba(0,0,0,.1);background:rgba(253,248,240,.6)">
+            <i class="fas fa-search mr-3 text-sm" style="color:rgba(0,0,0,.25)"></i>
+            <input type="text" placeholder="Search medicines, beauty, snacks, needfuls..." class="flex-1 bg-transparent text-sm focus:outline-none" style="color:#153628"/>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 md:gap-2">
+          <button class="md:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color:#1B4332"><i class="fas fa-search"></i></button>
+          <a href="profile.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
+          <a href="user_wishlist.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="far fa-heart text-sm"></i></a>
+          <a href="view_cart.html" class="nav-icon-btn flex w-10 h-10 md:w-auto md:h-11 rounded-xl items-center justify-center md:px-4 gap-2 relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
+            <i class="fas fa-shopping-bag text-sm"></i>
+            <span class="hidden md:inline text-xs font-semibold">Cart</span>
+            <span id="cart-count" class="absolute -top-1 -right-1 md:top-0 md:right-0 w-[18px] h-[18px] text-white text-[10px] font-bold rounded-full flex items-center justify-center" style="background:#C5A55A">0</span>
+          </a>
+        </div>
+      </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mob-overlay" class="mobile-overlay fixed inset-0 z-[60] bg-black/40 lg:hidden"></div>
+  <div id="mob-drawer" class="mobile-drawer fixed top-0 left-0 bottom-0 z-[70] w-[300px] bg-white shadow-2xl lg:hidden overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-8">
+        <a href="home.html" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B4332"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div><div class="font-display font-semibold text-[15px] leading-tight" style="color:#1B4332">Vrinda</div><div class="text-[10px] font-medium tracking-widest uppercase -mt-0.5" style="color:#2D8A5E">Wellness</div></div>
+        </a>
+        <button id="mob-close" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100" style="color:rgba(0,0,0,.4)"><i class="fas fa-times"></i></button>
+      </div>
+      <nav class="space-y-1">
+        <a href="home.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium" style="background:#F0F7F4;color:#1B4332"><i class="fas fa-home text-xs w-5 text-center"></i> Home</a>
+        <a href="category.html?zone=medicines" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-pills text-xs w-5 text-center"></i> Medicines</a>
+        <a href="category.html?zone=beauty" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-spa text-xs w-5 text-center"></i> Beauty</a>
+        <a href="category.html?zone=snacks" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-apple-alt text-xs w-5 text-center"></i> Snacks</a>
+        <a href="category.html?zone=needfuls" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-box-open text-xs w-5 text-center"></i> Needfuls</a>
+        <div class="my-3" style="border-top:1px solid rgba(0,0,0,.06)"></div>
+        <a href="prescription_page.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-file-prescription text-xs w-5 text-center"></i> Upload Prescription</a>
+        <a href="order_tracking.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-truck text-xs w-5 text-center"></i> Track Order</a>
+        <a href="user_wishlist.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="far fa-heart text-xs w-5 text-center"></i> Wishlist</a>
+        <a href="view_cart.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm" style="color:rgba(0,0,0,.6)"><i class="fas fa-shopping-bag text-xs w-5 text-center"></i> Cart</a>
+        <a href="profile.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold" style="color:#1B4332"><i class="fas fa-user text-xs w-5 text-center"></i> My Account</a>
+        <a href="login.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold" style="color:#B8952F"><i class="fas fa-sign-in-alt text-xs w-5 text-center"></i> Login / Sign Up</a>
+      </nav>
+    </div>
+  </div>
 
   <!-- MAIN CONTENT -->
   <main class="max-w-4xl mx-auto px-4 md:px-6 py-10">
@@ -58,6 +133,26 @@
         <button onclick="logoutUser()" class="ml-auto text-xs font-semibold px-4 py-2 rounded-lg border hover:bg-red-50 transition" style="border-color:#FEE2E2;color:#DC2626">
           <i class="fas fa-sign-out-alt mr-1"></i> Logout
         </button>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <a href="view_cart.html" class="bg-white rounded-2xl border border-black/5 p-5 text-center hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2" style="background:#F0F7F4;color:#1B4332"><i class="fas fa-shopping-bag"></i></div>
+          <p class="text-xs font-semibold" style="color:#153628">My Cart</p>
+        </a>
+        <a href="user_wishlist.html" class="bg-white rounded-2xl border border-black/5 p-5 text-center hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2" style="background:#FFF1F2;color:#E11D48"><i class="far fa-heart"></i></div>
+          <p class="text-xs font-semibold" style="color:#153628">Wishlist</p>
+        </a>
+        <a href="order_tracking.html" class="bg-white rounded-2xl border border-black/5 p-5 text-center hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2" style="background:#FFFBEB;color:#D97706"><i class="fas fa-truck"></i></div>
+          <p class="text-xs font-semibold" style="color:#153628">Track Order</p>
+        </a>
+        <a href="prescription_page.html" class="bg-white rounded-2xl border border-black/5 p-5 text-center hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2" style="background:#EFF6FF;color:#2563EB"><i class="fas fa-file-prescription"></i></div>
+          <p class="text-xs font-semibold" style="color:#153628">Prescriptions</p>
+        </a>
       </div>
 
       <!-- Mock Order History -->
@@ -96,40 +191,75 @@
       </div>
       <h2 class="font-display font-semibold text-2xl mb-3" style="color:#153628">Please Log In</h2>
       <p class="text-sm mb-8 max-w-sm mx-auto" style="color:rgba(0,0,0,.4)">You need to be logged in to view your profile and order history.</p>
-      <a href="login.html" class="inline-flex items-center gap-2 text-sm font-semibold px-8 py-3.5 rounded-xl text-white shadow-lg" style="background:#1B4332">
-        <i class="fas fa-sign-in-alt text-xs"></i> Sign In
-      </a>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="login.html" class="inline-flex items-center gap-2 text-sm font-semibold px-8 py-3.5 rounded-xl text-white shadow-lg" style="background:#1B4332">
+          <i class="fas fa-sign-in-alt text-xs"></i> Sign In
+        </a>
+        <a href="register.html" class="inline-flex items-center gap-2 text-sm font-semibold px-8 py-3.5 rounded-xl border" style="color:#1B4332;border-color:rgba(0,0,0,.1)">
+          <i class="fas fa-user-plus text-xs"></i> Create Account
+        </a>
+      </div>
     </div>
 
   </main>
 
+  <!-- FOOTER -->
+  <footer class="bg-dark-footer text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 pt-10 pb-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <a href="home.html" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:#1B6B47;border:1px solid rgba(255,255,255,.1)"><span class="font-display font-bold text-white text-sm">V</span></div>
+          <div><div class="font-display font-semibold text-white leading-tight">Vrinda Wellness</div><div class="text-[10px] font-medium tracking-widest uppercase" style="color:#7FC4A0">Your Trusted Partner</div></div>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="home.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Home</a>
+          <a href="category.html?zone=medicines" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Medicines</a>
+          <a href="prescription_page.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">Upload Rx</a>
+          <a href="profile.html" class="text-xs hover:text-white/70" style="color:rgba(255,255,255,.45)">My Account</a>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 text-center text-[11px]" style="border-top:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.25)">
+        © 2025 Vrinda Wellness. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
   <script>
+    // ── Cart Count Sync ──
+    let cartCount = JSON.parse(localStorage.getItem('vrindaCart') || '[]').length;
+    document.getElementById('cart-count').textContent = cartCount;
+
+    // ── Mobile Drawer ──
+    const mobToggle = document.getElementById('mob-toggle');
+    const mobClose = document.getElementById('mob-close');
+    const mobDrawer = document.getElementById('mob-drawer');
+    const mobOverlay = document.getElementById('mob-overlay');
+    function openDrawer() { mobDrawer.classList.add('open'); mobOverlay.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeDrawer() { mobDrawer.classList.remove('open'); mobOverlay.classList.remove('open'); document.body.style.overflow=''; }
+    mobToggle.addEventListener('click', openDrawer);
+    mobClose.addEventListener('click', closeDrawer);
+    mobOverlay.addEventListener('click', closeDrawer);
+    document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', closeDrawer));
+
+    // ── Profile Logic ──
     try {
       const token = localStorage.getItem('vrindaToken');
       const userStr = localStorage.getItem('vrindaUser');
       let user = null;
 
-      // Safely parse the user data
       if (userStr && userStr !== 'undefined' && userStr !== 'null') {
-        try {
-          user = JSON.parse(userStr);
-        } catch (e) {
-          user = null; // If it's corrupted data, just treat as logged out
-        }
+        try { user = JSON.parse(userStr); } catch (e) { user = null; }
       }
 
       if (token && user && user.name) {
-        // User is logged in
         document.getElementById('logged-in-view').classList.remove('hidden');
         document.getElementById('user-name').textContent = user.name;
         document.getElementById('user-email').textContent = user.email;
         document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
       } else {
-        // User is a guest
         document.getElementById('logged-out-view').classList.remove('hidden');
       }
     } catch (error) {
-      // If anything fails, just show the logged-out view
       document.getElementById('logged-out-view').classList.remove('hidden');
     }
 
@@ -139,15 +269,10 @@
       window.location.href = 'home.html';
     }
 
-    // 💡 QUICK MOCK LOGIN FOR OFFICE TESTING
     function mockLoginForTest() {
-      const mockData = { 
-        name: 'Pooja Gaud', 
-        email: 'pooja@vrinda.com' 
-      };
+      const mockData = { name: 'Pooja Gaud', email: 'pooja@vrinda.com' };
       localStorage.setItem('vrindaToken', 'mock_office_token_123');
       localStorage.setItem('vrindaUser', JSON.stringify(mockData));
-      // Reload the page to see the logged-in view
       window.location.reload(); 
     }
   </script>
