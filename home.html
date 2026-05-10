@@ -740,7 +740,7 @@
   <!-- ══════════════════════════════════════════════ -->
 <script>
     // ── State ──
-    let cartCount = 0;
+    let cartCount = JSON.parse(localStorage.getItem('vrindaCart') || '[]').length;
     let ZONES = {};
     const activeSub = { medicines:'prescription', beauty:'skincare', snacks:'protein', needfuls:'baby' };
 
@@ -748,6 +748,21 @@
       'Bestseller':'#C5A55A', 'New':'#E11D48', 'Trending':'#153628',
       'Sale':'#DC2626', 'Organic':'#166534', 'Limited Edition':'#D97706'
     };
+
+    // ── Add to Cart (Saves to LocalStorage) ──
+    function addToCart(product) {
+      let cart = JSON.parse(localStorage.getItem('vrindaCart') || '[]');
+      cart.push({
+        name: product.name,
+        brand: product.brand,
+        price: '₹' + product.price,
+        img: product.image
+      });
+      localStorage.setItem('vrindaCart', JSON.stringify(cart));
+      cartCount = cart.length;
+      document.getElementById('cart-count').textContent = cartCount;
+      showToast('Added to Cart', product.name.substring(0, 40) + (product.name.length > 40 ? '…' : ''));
+    }
 
     // ── Fetch Live Products ──
     async function loadProducts() {
@@ -760,7 +775,6 @@
         const res = await fetch('https://vrinda-backend-fq9q.onrender.com/api/v1/products?_=' + Date.now());
         const json = await res.json();
 
-        // Initialize all zones & sub-tabs as empty
         const SUBS = {
           medicines: ['prescription','otc','ayurvedic','supplements'],
           beauty: ['skincare','haircare','bodycare','grooming'],
@@ -772,17 +786,41 @@
           SUBS[zone].forEach(sub => ZONES[zone][sub] = []);
         });
 
-        // ══ Place products using zone + subcategory directly from DB ══
+        // ══ Fallback MAP for old data (category field) ═══
+        const MAP = {
+          'Health Essentials': 'medicines.prescription',
+          'Ayurvedic Medicine': 'medicines.ayurvedic',
+          'Beauty & Skincare': 'beauty.skincare',
+          'Healthy Snacks': 'snacks.protein'
+        };
+
+        // Place products into correct zone > sub-tab
         json.products.forEach(p => {
-          if (ZONES[p.zone] && ZONES[p.zone][p.subcategory]) {
-            ZONES[p.zone][p.subcategory].push({
-              name: p.name, brand: p.brand, price: p.price, mrp: p.mrp,
-              rating: p.rating, reviews: p.reviews,
-              badge: p.badge || null,
-              badgeBg: BADGE_COLORS[p.badge] || '#1B4332',
-              image: p.image
-            });
+          let zone, sub;
+
+          // NEW format: product has zone + subcategory directly
+          if (p.zone && p.subcategory && ZONES[p.zone] && ZONES[p.zone][p.subcategory]) {
+            zone = p.zone;
+            sub = p.subcategory;
           }
+          // OLD format: product has category field, use MAP
+          else if (p.category && MAP[p.category]) {
+            const parts = MAP[p.category].split('.');
+            zone = parts[0];
+            sub = parts[1];
+          }
+          // Unknown format, skip
+          else {
+            return;
+          }
+
+          ZONES[zone][sub].push({
+            name: p.name, brand: p.brand, price: p.price, mrp: p.mrp,
+            rating: p.rating, reviews: p.reviews,
+            badge: p.badge || null,
+            badgeBg: BADGE_COLORS[p.badge] || '#1B4332',
+            image: p.image
+          });
         });
 
         console.log('✅ Loaded', json.products.length, 'products from database');
@@ -822,7 +860,6 @@
       void container.offsetWidth;
       container.classList.add('zone-products-enter');
 
-      // Empty state for tabs with no products yet
       if (!products || products.length === 0) {
         container.innerHTML = `
           <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
@@ -857,23 +894,20 @@
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="color:#166534;background:#DCFCE7">${disc}% off</span>
             </div>
           </div>`;
-        container.appendChild(card);
-      });
-
-      // Wire up Add to Cart buttons
-      container.querySelectorAll('.prod-atc').forEach(btn => {
-        btn.addEventListener('click', e => {
+        
+        // ══ Wire Add to Cart INSIDE the loop where 'p' exists ══
+        card.querySelector('.prod-atc').addEventListener('click', e => {
           e.stopPropagation();
-          cartCount++;
-          document.getElementById('cart-count').textContent = cartCount;
-          const name = btn.closest('.prod-card').querySelector('h3').textContent;
-          showToast('Added to Cart', name.substring(0,40) + (name.length > 40 ? '…' : ''));
+          addToCart(p);
         });
+
+        container.appendChild(card);
       });
     }
 
     // ── Kick off ──
     loadProducts();
+    document.getElementById('cart-count').textContent = cartCount;
 
     // ── Zone Tabs ──
     document.querySelectorAll('.zone-tabs').forEach(tabContainer => {
