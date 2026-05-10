@@ -176,8 +176,8 @@
         </div>
         <div class="flex items-center gap-1 md:gap-2">
           <button class="md:hidden nav-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" style="color:#1B4332"><i class="fas fa-search"></i></button>
-          <a href="login.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
-          <a href="#" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="far fa-heart text-sm"></i></a>
+          <a href="profile.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="fas fa-user text-sm"></i></a>
+          <a href="user_wishlist.html" class="nav-icon-btn hidden sm:flex w-10 h-10 rounded-xl items-center justify-center" style="color:#1B6B47"><i class="far fa-heart text-sm"></i></a>
           <a href="view_cart.html" class="nav-icon-btn flex w-10 h-10 md:w-auto md:h-11 rounded-xl items-center justify-center md:px-4 gap-2 relative" style="color:#1B4332;background:rgba(27,67,50,.05)">
             <i class="fas fa-shopping-bag text-sm"></i>
             <span class="hidden md:inline text-xs font-semibold">Cart</span>
@@ -230,21 +230,24 @@
         <button id="mob-close" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100" style="color:rgba(0,0,0,.4)"><i class="fas fa-times"></i></button>
       </div>
       <div class="mb-6">
-        <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#F0F7F4">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:#1B4332"><i class="fas fa-user text-white text-sm"></i></div>
-          <div><div class="text-sm font-semibold" style="color:#153628">Welcome!</div><a href="login.html" class="text-xs" style="color:#2D8A5E">Login / Sign Up</a></div>
-        </div>
-      </div>
-      <nav class="space-y-1">
-        <a href="#zone-medicines" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium" style="background:#F0F7F4;color:#1B4332"><i class="fas fa-pills text-xs w-5 text-center"></i> Medicines</a>
-        <a href="#zone-beauty" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-pink-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-spa text-xs w-5 text-center"></i> Beauty Products</a>
-        <a href="#zone-snacks" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-amber-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-apple-alt text-xs w-5 text-center"></i> Healthy Snacks</a>
-        <a href="#zone-needfuls" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-blue-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-box-open text-xs w-5 text-center"></i> Needfuls</a>
-        <div class="my-3" style="border-top:1px solid rgba(0,0,0,.06)"></div>
-        <a href="#" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-file-prescription text-xs w-5 text-center"></i> Upload Prescription</a>
-        <a href="#" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-redo text-xs w-5 text-center"></i> Order Refills</a>
-        <a href="#" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold hover:bg-amber-50" style="color:#B8952F"><i class="fas fa-tag text-xs w-5 text-center"></i> Offers</a>
-      </nav>
+  <a href="profile.html" class="flex items-center gap-3 p-3 rounded-xl" style="background:#F0F7F4">
+    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:#1B4332"><i class="fas fa-user text-white text-sm"></i></div>
+    <div><div class="text-sm font-semibold" style="color:#153628">Welcome!</div><div class="text-xs" style="color:#2D8A5E">My Account</div></div>
+  </a>
+</div>
+    <nav class="space-y-1">
+  <a href="home.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium" style="background:#F0F7F4;color:#1B4332"><i class="fas fa-home text-xs w-5 text-center"></i> Home</a>
+  <a href="category.html?zone=medicines" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-pills text-xs w-5 text-center"></i> Medicines</a>
+  <a href="category.html?zone=beauty" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-pink-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-spa text-xs w-5 text-center"></i> Beauty Products</a>
+  <a href="category.html?zone=snacks" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-amber-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-apple-alt text-xs w-5 text-center"></i> Healthy Snacks</a>
+  <a href="category.html?zone=needfuls" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-blue-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-box-open text-xs w-5 text-center"></i> Needfuls</a>
+  <div class="my-3" style="border-top:1px solid rgba(0,0,0,.06)"></div>
+  <a href="prescription_page.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-file-prescription text-xs w-5 text-center"></i> Upload Prescription</a>
+  <a href="order_tracking.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-truck text-xs w-5 text-center"></i> Track Order</a>
+  <a href="user_wishlist.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="far fa-heart text-xs w-5 text-center"></i> Wishlist</a>
+  <a href="view_cart.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm hover:bg-green-50" style="color:rgba(0,0,0,.6)"><i class="fas fa-shopping-bag text-xs w-5 text-center"></i> Cart</a>
+  <a href="login.html" class="mob-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold hover:bg-amber-50" style="color:#B8952F"><i class="fas fa-sign-in-alt text-xs w-5 text-center"></i> Login / Sign Up</a>
+</nav>
     </div>
   </div>
 
@@ -350,7 +353,9 @@
               <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight" style="color:#153628">Medicines</h2>
             </div>
           </div>
-          <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#1B6B47">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+          
+<a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#1B6B47">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+
         </div>
         <p class="text-sm mb-6 max-w-lg -mt-1" style="color:rgba(0,0,0,.4)">Prescription drugs, OTC medicines, ayurvedic remedies, and daily supplements — all genuine, all verified.</p>
 
@@ -373,7 +378,8 @@
           <span class="text-[10px] font-bold uppercase tracking-widest" style="color:#B8952F">Curated by Vrinda</span>
           <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight mt-1" style="color:#153628">Wellness Combos</h2>
         </div>
-        <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#1B6B47">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+       <a href="category.html?zone=medicines" class="text-xs font-semibold flex items-center gap-1.5" style="color:#1B6B47">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+
       </div>
       <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
         <div class="combo-card flex-shrink-0 w-[260px] md:w-[280px] bg-white rounded-2xl overflow-hidden border border-black/5 cursor-pointer">
@@ -436,7 +442,8 @@
               <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight" style="color:#153628">Beauty Products</h2>
             </div>
           </div>
-          <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#E11D48">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+          <a href="category.html?zone=beauty" class="text-xs font-semibold flex items-center gap-1.5" style="color:#E11D48">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+
         </div>
         <p class="text-sm mb-6 max-w-lg -mt-1" style="color:rgba(0,0,0,.4)">Skincare, haircare, body care, and grooming essentials from brands you trust.</p>
 
@@ -465,7 +472,8 @@
               <h2 class="font-display font-semibold text-2xl md:text-3xl tracking-tight" style="color:#153628">Healthy Snacks</h2>
             </div>
           </div>
-          <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#D97706">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+          <a href="#" class="text-xs font-semibold flex items-center gap-1.5" style="color:#D97706"><a href="category.html?zone=snacks" class="text-xs font-semibold flex items-center gap-1.5" style="color:#D97706">View All <i class="fas fa-arrow-right text-[10px]"></i></a>
+ <i class="fas fa-arrow-right text-[10px]"></i></a>
         </div>
         <p class="text-sm mb-6 max-w-lg -mt-1" style="color:rgba(0,0,0,.4)">Guilt-free snacking — protein bites, dry fruits, herbal teas, and energy bars for your family.</p>
 
