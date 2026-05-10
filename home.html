@@ -738,7 +738,7 @@
   <!-- ══════════════════════════════════════════════ -->
   <!-- ALL JAVASCRIPT                                 -->
   <!-- ══════════════════════════════════════════════ -->
-  <script>
+<script>
     // ── State ──
     let cartCount = 0;
     let ZONES = {};
@@ -753,20 +753,12 @@
     async function loadProducts() {
       ['medicines','beauty','snacks','needfuls'].forEach(zone => {
         const c = document.getElementById('products-' + zone);
-        if (c) c.innerHTML = '<div class="grid grid-cols-2 md:grid-cols-4 gap-4">' + Array(4).fill('<div class="bg-gray-100 rounded-2xl h-72 animate-pulse"></div>').join('') + '</div>';
+        if (c) c.innerHTML = Array(4).fill('<div class="bg-gray-100 rounded-2xl h-72 animate-pulse"></div>').join('');
       });
 
       try {
         const res = await fetch('https://vrinda-backend-fq9q.onrender.com/api/v1/products?_=' + Date.now());
         const json = await res.json();
-
-        // Category → Zone.Sub mapping
-        const MAP = {
-          'Health Essentials': 'medicines.prescription',
-          'Ayurvedic Medicine': 'medicines.ayurvedic',
-          'Beauty & Skincare': 'beauty.skincare',
-          'Healthy Snacks': 'snacks.protein'
-        };
 
         // Initialize all zones & sub-tabs as empty
         const SUBS = {
@@ -780,18 +772,17 @@
           SUBS[zone].forEach(sub => ZONES[zone][sub] = []);
         });
 
-        // Place products into correct zone > sub-tab
+        // ══ Place products using zone + subcategory directly from DB ══
         json.products.forEach(p => {
-          const key = MAP[p.category];
-          if (!key) return;
-          const [zone, sub] = key.split('.');
-          ZONES[zone][sub].push({
-            name: p.name, brand: p.brand, price: p.price, mrp: p.mrp,
-            rating: p.rating, reviews: p.reviews,
-            badge: p.badge || null,
-            badgeBg: BADGE_COLORS[p.badge] || '#1B4332',
-            image: p.image
-          });
+          if (ZONES[p.zone] && ZONES[p.zone][p.subcategory]) {
+            ZONES[p.zone][p.subcategory].push({
+              name: p.name, brand: p.brand, price: p.price, mrp: p.mrp,
+              rating: p.rating, reviews: p.reviews,
+              badge: p.badge || null,
+              badgeBg: BADGE_COLORS[p.badge] || '#1B4332',
+              image: p.image
+            });
+          }
         });
 
         console.log('✅ Loaded', json.products.length, 'products from database');
@@ -801,6 +792,10 @@
 
       } catch (err) {
         console.error('❌ Failed to load products:', err);
+        ['medicines','beauty','snacks','needfuls'].forEach(zone => {
+          const c = document.getElementById('products-' + zone);
+          if (c) c.innerHTML = '<div class="col-span-full text-center py-16"><p class="text-sm" style="color:#DC2626">Failed to load products. Please refresh.</p></div>';
+        });
       }
     }
 
@@ -1004,6 +999,6 @@
     const btt = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => { btt.classList.toggle('visible', window.scrollY > 600); });
     btt.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
-  </script>
+</script>
 </body>
 </html>
